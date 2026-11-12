@@ -3,27 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RankEngine - Editor de Tabela</title>
+    <title>RankEngine - Estúdio de Edição de Tabela</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Mesma ambientação sutil de dados e partículas -->
+    <!-- Ambientação sutil de dados e partículas -->
     <div class="data-ambient-bg" aria-hidden="true">
         <div class="grid-overlay"></div>
-        <svg class="floating-data-graphic graphic-left" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="30" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1.5"/>
-            <line x1="60" y1="30" x2="60" y2="150" stroke="#78B89A" stroke-width="1.5"/>
-            <line x1="130" y1="30" x2="130" y2="150" stroke="#78B89A" stroke-width="1.5"/>
-            <rect x="20" y="64" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1"/>
-            <rect x="20" y="98" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1"/>
-        </svg>
-
-        <svg class="floating-data-graphic graphic-right" viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 140 L65 105 L110 120 L155 60 L200 35" stroke="#78B89A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="200" cy="35" r="5" fill="#78B89A"/>
-        </svg>
-
         <span class="particle p1"></span>
         <span class="particle p2"></span>
         <span class="particle p3"></span>
@@ -31,135 +18,471 @@
         <span class="particle p5"></span>
     </div>
 
-    <!-- Mesmo Cabeçalho -->
     {% include '_header.html' %}
 
-    <!-- Área de Edição e Pré-visualização -->
     <main class="editor-workspace">
         <div class="editor-container">
 
-            <!-- Cabeçalho do Editor -->
+            <!-- Barra Superior do Estúdio -->
             <div class="editor-top-bar animate-fade-up delay-1">
                 <div>
-                    <span class="status-tag">Modo de Edição Avançada</span>
-                    <h1 class="editor-title">Configurar <span class="highlight">RankEngine</span></h1>
+                    <span class="status-tag">Estúdio de Configuração</span>
+                    <h1 class="editor-title">Editar <span class="highlight">Campeonato &amp; Tabela</span></h1>
                 </div>
 
                 <div class="editor-top-actions">
-                    <a href="/tabela" class="btn-secondary-outline">← Voltar para Tabela</a>
-                    <button type="button" class="btn-save-changes">Salvar Alterações</button>
+                    <button type="button" class="btn-secondary-outline" title="Clonar estrutura de um torneio existente">
+                        ⧉ Duplicar Competição
+                    </button>
+                    <a href="/tabela" class="btn-secondary-outline">← Voltar</a>
+                    <button type="button" class="btn-save-changes">Salvar Estrutura</button>
                 </div>
             </div>
 
-            <!-- Grid Principal: Painel de Controles (Esquerda) + Tabela Compacta (Direita) -->
-            <div class="editor-grid">
+            <!-- Grid Principal: Estúdio de Abas (Esquerda) + Pré-visualização da Tabela (Direita) -->
+            <div class="editor-studio-grid">
 
-                <!-- COLUNA 1: OPÇÕES COMPLEXAS DE EDIÇÃO -->
-                <aside class="editor-controls-panel animate-fade-up delay-2">
+                <!-- COLUNA ESQUERDA: PAINEL COMPLETO COM ABAS -->
+                <aside class="studio-controls-wrapper animate-fade-up delay-2">
+                    
+                    <!-- Menu de Abas do Editor -->
+                    <nav class="studio-tabs-nav" aria-label="Seções de edição">
+                        <button type="button" class="studio-tab active" onclick="openStudioTab('tab-geral', this)">1. Geral &amp; Visual</button>
+                        <button type="button" class="studio-tab" onclick="openStudioTab('tab-formato', this)">2. Formato</button>
+                        <button type="button" class="studio-tab" onclick="openStudioTab('tab-pontuacao', this)">3. Pontuação</button>
+                        <button type="button" class="studio-tab" onclick="openStudioTab('tab-participantes', this)">4. Participantes</button>
+                        <button type="button" class="studio-tab" onclick="openStudioTab('tab-partidas', this)">5. Partidas</button>
+                    </nav>
 
-                    <!-- Bloco 1: Identidade & Regras de Pontuação -->
-                    <div class="control-card">
-                        <div class="control-card-header">
-                            <h3>1. Estrutura &amp; Regras de Pontuação</h3>
-                        </div>
-                        <div class="control-group">
-                            <label for="table-name">Título da Tabela / Torneio</label>
-                            <input type="text" id="table-name" class="form-input" value="Classificação Geral RankEngine" placeholder="Ex: Copa Nacional 2026">
-                        </div>
-
-                        <div class="rules-row">
-                            <div class="control-group">
-                                <label>Vitória (PTS)</label>
-                                <input type="number" class="form-input" value="3">
+                    <!-- ABA 1: IDENTIDADE, MODALIDADE, TEMPORADA E CORES -->
+                    <div id="tab-geral" class="studio-tab-content active">
+                        <div class="control-card">
+                            <div class="control-card-header">
+                                <h3>Identidade do Campeonato / Evento</h3>
                             </div>
+
                             <div class="control-group">
-                                <label>Empate (PTS)</label>
-                                <input type="number" class="form-input" value="1">
+                                <label>Nome do Campeonato, Torneio ou Evento</label>
+                                <input type="text" class="form-input" placeholder="Ex: Copa Nacional RankEngine">
                             </div>
-                            <div class="control-group">
-                                <label>Derrota (PTS)</label>
-                                <input type="number" class="form-input" value="0">
+
+                            <div class="two-cols-row">
+                                <div class="control-group">
+                                    <label>Modalidade Esportiva</label>
+                                    <select class="form-select" id="select-modalidade" onchange="syncScoringTab(this.value)">
+                                        <option value="futebol">⚽ Futebol</option>
+                                        <option value="automobilismo">🏎️ Automobilismo</option>
+                                        <option value="volei">🏐 Vôlei</option>
+                                        <option value="pingue-pongue">🏓 Pingue-pongue / Tênis de Mesa</option>
+                                        <option value="esports">🎮 E-Sports</option>
+                                        <option value="xadrez">♟️ Xadrez / Jogos de Mesa</option>
+                                        <option value="personalizado">⚙️ Outra / Personalizada</option>
+                                    </select>
+                                </div>
+
+                                <div class="control-group">
+                                    <label>Temporada ou Edição</label>
+                                    <input type="text" class="form-input" placeholder="Ex: 2026 / Edição IV">
+                                </div>
+                            </div>
+
+                            <div class="two-cols-row">
+                                <div class="control-group">
+                                    <label>Quantidade de Participantes</label>
+                                    <input type="number" class="form-input" min="2" max="128" placeholder="Ex: 20">
+                                </div>
+
+                                <div class="control-group">
+                                    <label>Logo Oficial do Evento</label>
+                                    <label class="file-upload-btn">
+                                        <span>📁 Inserir Logo / Escudo</span>
+                                        <input type="file" accept="image/*" hidden>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="control-group">
-                            <label>Critério Principal de Desempate (SQL ORDER BY)</label>
-                            <select class="form-select">
-                                <option selected>1º Vitórias → 2º Saldo → 3º Pró</option>
-                                <option>1º Saldo → 2º Vitórias → 3º Confronto Direto</option>
-                                <option>1º Aproveitamento (%) → 2º Vitórias</option>
-                            </select>
+                        <div class="control-card">
+                            <div class="control-card-header">
+                                <h3>Cores &amp; Identidade Visual da Tabela</h3>
+                            </div>
+
+                            <div class="colors-picker-grid">
+                                <div class="color-item">
+                                    <label>Cor Principal</label>
+                                    <input type="color" value="#2F5E49" class="color-swatch">
+                                </div>
+                                <div class="color-item">
+                                    <label>Destaque / Campeão</label>
+                                    <input type="color" value="#78B89A" class="color-swatch">
+                                </div>
+                                <div class="color-item">
+                                    <label>Zona Classificação</label>
+                                    <input type="color" value="#237A57" class="color-swatch">
+                                </div>
+                                <div class="color-item">
+                                    <label>Zona Rebaixamento</label>
+                                    <input type="color" value="#B84A4A" class="color-swatch">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Bloco 2: Colunas Visíveis / Personalizadas -->
-                    <div class="control-card">
-                        <div class="control-card-header">
-                            <h3>2. Colunas &amp; Métricas Exibidas</h3>
-                        </div>
-                        <div class="columns-toggle-grid">
-                            <label class="toggle-chip active">
-                                <input type="checkbox" checked> <span>PTS (Pontos)</span>
-                            </label>
-                            <label class="toggle-chip active">
-                                <input type="checkbox" checked> <span>PJ (Jogos)</span>
-                            </label>
-                            <label class="toggle-chip active">
-                                <input type="checkbox" checked> <span>VIT / EMP / DER</span>
-                            </label>
-                            <label class="toggle-chip active">
-                                <input type="checkbox" checked> <span>SALDO</span>
-                            </label>
-                            <label class="toggle-chip active">
-                                <input type="checkbox" checked> <span>APROV. (%)</span>
-                            </label>
-                            <label class="toggle-chip">
-                                <input type="checkbox"> <span>Últimos 5 Jogos</span>
-                            </label>
+                    <!-- ABA 2: TIPOS DE TABELAS E FORMATOS -->
+                    <div id="tab-formato" class="studio-tab-content">
+                        <div class="control-card">
+                            <div class="control-card-header">
+                                <h3>Escolher Formato da Competição</h3>
+                            </div>
+
+                            <div class="format-cards-grid">
+                                <label class="format-option active">
+                                    <input type="radio" name="formato" value="pontos_corridos" checked>
+                                    <div class="format-info">
+                                        <strong>Pontos corridos</strong>
+                                        <span>Aplicação: Brasileirão / Ligas</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="turno_returno">
+                                    <div class="format-info">
+                                        <strong>Turno e returno</strong>
+                                        <span>Aplicação: Futebol e vôlei</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="grupos">
+                                    <div class="format-info">
+                                        <strong>Fase de Grupos</strong>
+                                        <span>Aplicação: Libertadores / Copa</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="eliminatorias">
+                                    <div class="format-info">
+                                        <strong>Eliminatórias</strong>
+                                        <span>Aplicação: Copa do Brasil</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="mata_mata">
+                                    <div class="format-info">
+                                        <strong>Mata-mata</strong>
+                                        <span>Aplicação: Vôlei e tênis de mesa</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="corridas_etapas">
+                                    <div class="format-info">
+                                        <strong>Corridas por etapas</strong>
+                                        <span>Aplicação: Automobilismo</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="ranking_individual">
+                                    <div class="format-info">
+                                        <strong>Ranking individual</strong>
+                                        <span>Aplicação: Pingue-pongue</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="campeonato_pontos">
+                                    <div class="format-info">
+                                        <strong>Campeonato por pontos</strong>
+                                        <span>Aplicação: Torneios diversos</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="suico">
+                                    <div class="format-info">
+                                        <strong>Sistema Suíço</strong>
+                                        <span>Aplicação: Xadrez e mesa</span>
+                                    </div>
+                                </label>
+
+                                <label class="format-option">
+                                    <input type="radio" name="formato" value="dupla_eliminacao">
+                                    <div class="format-info">
+                                        <strong>Dupla eliminação</strong>
+                                        <span>Aplicação: E-sports (Upper/Lower)</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Formato Personalizado -->
+                            <div class="custom-format-box">
+                                <label class="toggle-chip">
+                                    <input type="checkbox" id="check-custom-format" onchange="document.getElementById('custom-format-fields').classList.toggle('hidden')">
+                                    <span>🛠️ Criar formato personalizado</span>
+                                </label>
+                                <div id="custom-format-fields" class="hidden" style="margin-top: 12px;">
+                                    <input type="text" class="form-input" placeholder="Nome do formato (ex: Grupos + Triangular Final)">
+                                    <input type="text" class="form-input" style="margin-top: 8px;" placeholder="Descreva as fases e regras de avanço...">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Bloco 3: Adicionar Competidor ou Registrar Partida -->
-                    <div class="control-card">
-                        <div class="control-card-header">
-                            <h3>3. Competidores &amp; Resultados</h3>
-                        </div>
+                    <!-- ABA 3: SISTEMA DE PONTUAÇÃO POR MODALIDADE -->
+                    <div id="tab-pontuacao" class="studio-tab-content">
+                        <div class="control-card">
+                            <div class="control-card-header">
+                                <h3>Sistema de Pontuação &amp; Critérios</h3>
+                            </div>
 
-                        <div class="add-row-box">
-                            <input type="text" class="form-input" placeholder="Nome do novo competidor ou equipe...">
-                            <button type="button" class="btn-add-item">+ Adicionar</button>
-                        </div>
+                            <!-- Seletor rápido de preset de modalidade -->
+                            <div class="preset-pills-row">
+                                <button type="button" class="preset-pill active" onclick="showScoringPreset('score-futebol', this)">Futebol</button>
+                                <button type="button" class="preset-pill" onclick="showScoringPreset('score-auto', this)">Automobilismo</button>
+                                <button type="button" class="preset-pill" onclick="showScoringPreset('score-volei', this)">Vôlei</button>
+                                <button type="button" class="preset-pill" onclick="showScoringPreset('score-pingpong', this)">Pingue-pongue</button>
+                            </div>
 
-                        <div class="match-simulator-box">
-                            <span class="mini-label">Registrar Nova Partida (Simulação)</span>
-                            <div class="match-inputs">
+                            <!-- Regras: FUTEBOL -->
+                            <div id="score-futebol" class="scoring-preset-panel active">
+                                <div class="rules-row">
+                                    <div class="control-group">
+                                        <label>Vitória (PTS)</label>
+                                        <input type="number" class="form-input" value="3">
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Empate (PTS)</label>
+                                        <input type="number" class="form-input" value="1">
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Derrota (PTS)</label>
+                                        <input type="number" class="form-input" value="0">
+                                    </div>
+                                </div>
+                                <div class="columns-toggle-grid">
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Saldo de gols (SG)</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Gols marcados (GP)</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Gols sofridos (GC)</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Confronto direto</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Regras: AUTOMOBILISMO -->
+                            <div id="score-auto" class="scoring-preset-panel hidden">
+                                <div class="control-group">
+                                    <label>Pontuação por Posição (1º ao 10º)</label>
+                                    <input type="text" class="form-input" value="25, 18, 15, 12, 10, 8, 6, 4, 2, 1">
+                                </div>
+                                <div class="rules-row">
+                                    <div class="control-group">
+                                        <label>Volta + Rápida</label>
+                                        <input type="number" class="form-input" value="1">
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Pole Position</label>
+                                        <input type="number" class="form-input" value="1">
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Descartes</label>
+                                        <input type="number" class="form-input" value="0">
+                                    </div>
+                                </div>
+                                <div class="columns-toggle-grid">
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Pontuação por Sprint</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Classificação de Equipes</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Regras: VÔLEI -->
+                            <div id="score-volei" class="scoring-preset-panel hidden">
+                                <div class="rules-row">
+                                    <div class="control-group">
+                                        <label>Vit. 3x0 / 3x1</label>
+                                        <input type="number" class="form-input" value="3">
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Vitória 3x2</label>
+                                        <input type="number" class="form-input" value="2">
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Derrota 2x3</label>
+                                        <input type="number" class="form-input" value="1">
+                                    </div>
+                                </div>
+                                <div class="columns-toggle-grid">
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Sets vencidos / perdidos</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Razão de Sets</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Pontos marcados / sofridos</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Razão de Pontos</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Regras: PINGUE-PONGUE -->
+                            <div id="score-pingpong" class="scoring-preset-panel hidden">
+                                <div class="two-cols-row">
+                                    <div class="control-group">
+                                        <label>Pontos por Vitória</label>
+                                        <input type="number" class="form-input" value="2">
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Pontos por Derrota</label>
+                                        <input type="number" class="form-input" value="1">
+                                    </div>
+                                </div>
+                                <div class="columns-toggle-grid">
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Sets vencidos e perdidos</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Saldo de sets</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Pontos feitos e sofridos</span></label>
+                                    <label class="toggle-chip active"><input type="checkbox" checked> <span>Confronto direto</span></label>
+                                </div>
+                            </div>
+
+                            <!-- Ordenação & Desempate -->
+                            <div class="control-group" style="margin-top: 16px;">
+                                <label>Ordem de Critérios de Desempate</label>
                                 <select class="form-select">
-                                    <option>Apex Racing Team</option>
-                                    <option>Velocity Motorsport</option>
-                                    <option>Emerald Dynamics</option>
-                                </select>
-                                <input type="number" class="form-input score-box" placeholder="0">
-                                <span class="vs-badge">X</span>
-                                <input type="number" class="form-input score-box" placeholder="0">
-                                <select class="form-select">
-                                    <option>Velocity Motorsport</option>
-                                    <option>Apex Racing Team</option>
-                                    <option>Horizon Squad</option>
+                                    <option>1º Pontos → 2º Vitórias → 3º Saldo → 4º Confronto Direto</option>
+                                    <option>1º Pontos → 2º Saldo → 3º Pró → 4º Sorteio</option>
+                                    <option>1º Aproveitamento → 2º Vitórias → 3º Saldo</option>
                                 </select>
                             </div>
-                            <button type="button" class="btn-register-match">Lançar Resultado na Tabela</button>
+                        </div>
+                    </div>
+
+                    <!-- ABA 4: PARTICIPANTES, ESCUDOS, LOGOS E BANDEIRAS -->
+                    <div id="tab-participantes" class="studio-tab-content">
+                        <div class="control-card">
+                            <div class="control-card-header">
+                                <h3>Adicionar Equipes, Pilotos ou Jogadores</h3>
+                            </div>
+
+                            <div class="control-group">
+                                <label>Nome do Participante / Equipe</label>
+                                <input type="text" class="form-input" placeholder="Ex: Scuderia Verde / João Silva">
+                            </div>
+
+                            <div class="two-cols-row">
+                                <div class="control-group">
+                                    <label>Sigla (3 letras)</label>
+                                    <input type="text" class="form-input" maxlength="3" placeholder="Ex: SCV">
+                                </div>
+                                <div class="control-group">
+                                    <label>Grupo / Categoria (Opcional)</label>
+                                    <input type="text" class="form-input" placeholder="Ex: Grupo A">
+                                </div>
+                            </div>
+
+                            <div class="two-cols-row">
+                                <div class="control-group">
+                                    <label>Escudo / Logo / Foto</label>
+                                    <label class="file-upload-btn">
+                                        <span>🖼️ Escolher Imagem</span>
+                                        <input type="file" accept="image/*" hidden>
+                                    </label>
+                                </div>
+                                <div class="control-group">
+                                    <label>Bandeira / Nacionalidade</label>
+                                    <label class="file-upload-btn">
+                                        <span>🏳️ Inserir Bandeira</span>
+                                        <input type="file" accept="image/*" hidden>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn-add-full">+ Adicionar Participante à Tabela</button>
+                        </div>
+                    </div>
+
+                    <!-- ABA 5: GESTÃO DE PARTIDAS, CALENDÁRIO E RESULTADOS -->
+                    <div id="tab-partidas" class="studio-tab-content">
+                        <div class="control-card">
+                            <div class="control-card-header">
+                                <h3>Calendário &amp; Confrontos</h3>
+                            </div>
+
+                            <div class="two-cols-row" style="margin-bottom: 14px;">
+                                <button type="button" class="btn-secondary-outline" style="width: 100%; font-size: 0.84rem;">
+                                    ⚡ Gerar Calendário Automaticamente
+                                </button>
+                                <button type="button" class="btn-secondary-outline" style="width: 100%; font-size: 0.84rem;">
+                                    📊 Estatísticas Individuais
+                                </button>
+                            </div>
+
+                            <!-- Criar / Registrar Partida Manualmente -->
+                            <div class="match-simulator-box">
+                                <span class="mini-label">Criar Partida / Registrar Resultado</span>
+                                
+                                <div class="two-cols-row" style="margin-bottom: 10px;">
+                                    <div class="control-group">
+                                        <label>Data e Horário</label>
+                                        <input type="datetime-local" class="form-input">
+                                    </div>
+                                    <div class="control-group">
+                                        <label>Status da Partida</label>
+                                        <select class="form-select">
+                                            <option value="agendada">📅 Agendada</option>
+                                            <option value="ao_vivo">🔴 Ao Vivo</option>
+                                            <option value="finalizada">✅ Finalizada</option>
+                                            <option value="adiada">⏸️ Adiada</option>
+                                            <option value="cancelada">❌ Cancelada</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="match-inputs">
+                                    <select class="form-select">
+                                        <option value="">Mandante...</option>
+                                    </select>
+                                    <input type="number" class="form-input score-box" placeholder="0">
+                                    <span class="vs-badge">X</span>
+                                    <input type="number" class="form-input score-box" placeholder="0">
+                                    <select class="form-select">
+                                        <option value="">Visitante...</option>
+                                    </select>
+                                </div>
+
+                                <button type="button" class="btn-register-match">Salvar Partida &amp; Atualizar Classificação</button>
+                            </div>
+
+                            <div class="match-extra-links">
+                                <button type="button" class="link-action-btn">📜 Ver Histórico de Confrontos</button>
+                                <button type="button" class="link-action-btn">✏️ Editar Resultados Anteriores</button>
+                            </div>
                         </div>
                     </div>
 
                 </aside>
 
-                <!-- COLUNA 2: PRÉ-VISUALIZAÇÃO COMPACTA DA TABELA COM GLOW -->
+                <!-- COLUNA DIREITA: PRÉ-VISUALIZAÇÃO COMPACTA & FILTROS DA TABELA -->
                 <section class="editor-preview-panel animate-fade-up delay-3">
-                    <div class="preview-header">
-                        <span class="preview-badge">Pré-visualização em Tempo Real</span>
-                        <span class="preview-hint">Clique em qualquer célula para editar diretamente (em breve)</span>
+                    
+                    <!-- Barra de Filtros e Exibição -->
+                    <div class="preview-toolbar">
+                        <div class="filter-pills">
+                            <select class="form-select mini-select">
+                                <option>Todas as Rodadas</option>
+                                <option>Rodada 1</option>
+                            </select>
+                            <select class="form-select mini-select">
+                                <option>Todos os Grupos</option>
+                            </select>
+                            <select class="form-select mini-select">
+                                <option>Temporada Atual</option>
+                            </select>
+                        </div>
+
+                        <div class="preview-toggles">
+                            <label class="mini-check"><input type="checkbox" checked> <span>Escudos</span></label>
+                            <label class="mini-check"><input type="checkbox" checked> <span>Evolução (↑↓)</span></label>
+                            <label class="mini-check"><input type="checkbox"> <span>Modo Arrastar Posição</span></label>
+                        </div>
                     </div>
 
+                    <!-- Card da Tabela com Glow -->
                     <div class="table-card-glow compact-table-card">
                         <div class="table-responsive">
                             <table class="rank-table compact">
@@ -177,53 +500,63 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-    {% if competidores %}
-        {% for comp in competidores %}
-        <tr>
-            <td><span class="pos-badge">{{ loop.index }}º</span></td>
-            <td class="competitor-cell">
-                <span class="team-dot"></span>
-                <strong>{{ comp.nome }}</strong>
-            </td>
-            <td class="pts-highlight">{{ comp.pts }}</td>
-            <td>{{ comp.pj }}</td>
-            <td>{{ comp.vit }}</td>
-            <td>{{ comp.emp }}</td>
-            <td>{{ comp.der }}</td>
-            <td>{{ comp.saldo }}</td>
-            <td>{{ comp.aprov }}%</td>
-        </tr>
-        {% endfor %}
-    {% else %}
-        <tr class="empty-table-row">
-            <td colspan="9">
-                <div class="empty-state-box">
-                    <span class="empty-icon">📊</span>
-                    <h3>"Nenhum competidor cadastrado. Adicione um acima."</h3>
-                    <p>Nenhum competidor ou partida foi adicionado ainda. Clique em <strong>"Editar tabela"</strong> acima para começar a preencher.</p>
-                </div>
-            </td>
-        </tr>
-    {% endif %}
-</tbody>
+                                    {% if competidores %}
+                                        {% for comp in competidores %}
+                                        <tr>
+                                            <td><span class="pos-badge">{{ loop.index }}º</span></td>
+                                            <td class="competitor-cell">
+                                                <span class="team-dot"></span>
+                                                <strong>{{ comp.nome }}</strong>
+                                            </td>
+                                            <td class="pts-highlight">{{ comp.pts }}</td>
+                                            <td>{{ comp.pj }}</td>
+                                            <td>{{ comp.vit }}</td>
+                                            <td>{{ comp.emp }}</td>
+                                            <td>{{ comp.der }}</td>
+                                            <td>{{ comp.saldo }}</td>
+                                            <td>
+                                                <div class="row-actions">
+                                                    <button type="button" class="icon-btn" title="Editar">✎</button>
+                                                    <button type="button" class="icon-btn danger" title="Remover">✕</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr class="empty-table-row">
+                                            <td colspan="9">
+                                                <div class="empty-state-box">
+                                                    <span class="empty-icon">⚙️</span>
+                                                    <h3>Tabela aguardando configuração</h3>
+                                                    <p>Use as abas ao lado para definir o formato, adicionar participantes com escudos e lançar partidas.</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Barra de Zonas / Destaques Visuais da Tabela -->
+                    <!-- Barra Inferior: Destaque de Zonas, Colunas e Histórico -->
                     <div class="zone-config-bar">
-                        <span class="zone-label">Destaque de Zonas:</span>
-                        <span class="zone-pill promo">● Top 3: Classificação / Pódio</span>
-                        <span class="zone-pill drop">● Último: Zona de Corte</span>
-                        <button type="button" class="btn-zone-edit">+ Configurar Zonas</button>
+                        <span class="zone-label">Zonas &amp; Destaques:</span>
+                        <span class="zone-pill champion">★ Campeão</span>
+                        <span class="zone-pill promo">● Classificados</span>
+                        <span class="zone-pill drop">● Rebaixamento</span>
+                        <div class="zone-right-btns">
+                            <button type="button" class="btn-zone-edit">📈 Evolução por Rodada</button>
+                            <button type="button" class="btn-zone-edit">⊞ Personalizar Colunas</button>
+                        </div>
                     </div>
+
                 </section>
 
             </div>
         </div>
     </main>
 
-    <!-- Mesmo Rodapé -->
+    <!-- Rodapé -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-brand">
@@ -236,7 +569,7 @@
                     <h4>Plataforma</h4>
                     <ul>
                         <li><a href="/tabela">Criar Tabela</a></li>
-                        <li><a href="#">Modelos de Ranking</a></li>
+                        <li><a href="/minhas-tabelas">Tabelas Criadas</a></li>
                         <li><a href="#">Documentação SQL</a></li>
                     </ul>
                 </div>
@@ -253,5 +586,30 @@
             <p>&copy; 2026 RankEngine. Desenvolvido para visualização e análise de dados.</p>
         </div>
     </footer>
+
+    <!-- Script apenas de navegação visual entre as abas do estúdio -->
+    <script>
+        function openStudioTab(tabId, btn) {
+            document.querySelectorAll('.studio-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.studio-tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function showScoringPreset(panelId, btn) {
+            document.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.scoring-preset-panel').forEach(panel => panel.classList.add('hidden'));
+            btn.classList.add('active');
+            document.getElementById(panelId).classList.remove('hidden');
+        }
+
+        // Destaca visualmente o card de formato selecionado
+        document.querySelectorAll('.format-option input').forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('active'));
+                radio.closest('.format-option').classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
