@@ -38,6 +38,7 @@
         <div class="profile-container">
 
             <!-- Card Superior do Perfil -->
+<!-- Card Superior do Perfil -->
 <section class="profile-hero-card animate-fade-up delay-1">
     <div class="profile-identity">
         <div class="profile-avatar-large">
@@ -45,7 +46,22 @@
         </div>
         <div class="profile-details">
             <span class="status-tag">Membro RankEngine</span>
-            <h1 class="profile-name">{{ usuario.nome }}</h1>
+            
+            <!-- Exibição do Nome + Botão de Editar -->
+            <div id="profile-name-display" class="profile-name-row">
+                <h1 class="profile-name">{{ usuario.nome }}</h1>
+                <button type="button" class="btn-edit-name" onclick="toggleEditName(true)" title="Alterar nome">
+                    ✎ Editar nome
+                </button>
+            </div>
+
+            <!-- Formulário oculto para alterar o nome -->
+            <form id="profile-name-form" class="profile-edit-form hidden" method="POST" action="/atualizar-perfil">
+                <input type="text" name="novo_nome" class="form-input" value="{{ usuario.nome }}" required>
+                <button type="submit" class="btn-primary-sm">Salvar</button>
+                <button type="button" class="btn-secondary-outline" onclick="toggleEditName(false)">Cancelar</button>
+            </form>
+
             <p class="profile-bio">{{ usuario.email }}</p>
         </div>
     </div>
@@ -134,5 +150,19 @@
             <p>&copy; 2026 RankEngine. Desenvolvido para visualização e análise de dados.</p>
         </div>
     </footer>
+    <script>
+    function toggleEditName(editing) {
+        const display = document.getElementById('profile-name-display');
+        const form = document.getElementById('profile-name-form');
+        if (editing) {
+            display.classList.add('hidden');
+            form.classList.remove('hidden');
+            form.querySelector('input').focus();
+        } else {
+            form.classList.add('hidden');
+            display.classList.remove('hidden');
+        }
+    }
+</script>
 </body>
 </html>

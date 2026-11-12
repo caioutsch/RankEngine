@@ -31,6 +31,9 @@
                 </div>
 
                 <div class="editor-top-actions">
+                    <button type="button" class="btn-add-participant-trigger" onclick="toggleParticipantModal(true)">
+                        + Adicionar participante
+                    </button>
                     <button type="button" class="btn-secondary-outline" title="Clonar estrutura de um torneio existente">
                         ⧉ Duplicar Competição
                     </button>
@@ -50,8 +53,7 @@
                         <button type="button" class="studio-tab active" onclick="openStudioTab('tab-geral', this)">1. Geral &amp; Visual</button>
                         <button type="button" class="studio-tab" onclick="openStudioTab('tab-formato', this)">2. Formato</button>
                         <button type="button" class="studio-tab" onclick="openStudioTab('tab-pontuacao', this)">3. Pontuação</button>
-                        <button type="button" class="studio-tab" onclick="openStudioTab('tab-participantes', this)">4. Participantes</button>
-                        <button type="button" class="studio-tab" onclick="openStudioTab('tab-partidas', this)">5. Partidas</button>
+                        <button type="button" class="studio-tab" onclick="openStudioTab('tab-partidas', this)">4. Partidas</button>
                     </nav>
 
                     <!-- ABA 1: IDENTIDADE, MODALIDADE, TEMPORADA E CORES -->
@@ -352,50 +354,6 @@
                         </div>
                     </div>
 
-                    <!-- ABA 4: PARTICIPANTES, ESCUDOS, LOGOS E BANDEIRAS -->
-                    <div id="tab-participantes" class="studio-tab-content">
-                        <div class="control-card">
-                            <div class="control-card-header">
-                                <h3>Adicionar Equipes, Pilotos ou Jogadores</h3>
-                            </div>
-
-                            <div class="control-group">
-                                <label>Nome do Participante / Equipe</label>
-                                <input type="text" class="form-input" placeholder="Ex: Scuderia Verde / João Silva">
-                            </div>
-
-                            <div class="two-cols-row">
-                                <div class="control-group">
-                                    <label>Sigla (3 letras)</label>
-                                    <input type="text" class="form-input" maxlength="3" placeholder="Ex: SCV">
-                                </div>
-                                <div class="control-group">
-                                    <label>Grupo / Categoria (Opcional)</label>
-                                    <input type="text" class="form-input" placeholder="Ex: Grupo A">
-                                </div>
-                            </div>
-
-                            <div class="two-cols-row">
-                                <div class="control-group">
-                                    <label>Escudo / Logo / Foto</label>
-                                    <label class="file-upload-btn">
-                                        <span>🖼️ Escolher Imagem</span>
-                                        <input type="file" accept="image/*" hidden>
-                                    </label>
-                                </div>
-                                <div class="control-group">
-                                    <label>Bandeira / Nacionalidade</label>
-                                    <label class="file-upload-btn">
-                                        <span>🏳️ Inserir Bandeira</span>
-                                        <input type="file" accept="image/*" hidden>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <button type="button" class="btn-add-full">+ Adicionar Participante à Tabela</button>
-                        </div>
-                    </div>
-
                     <!-- ABA 5: GESTÃO DE PARTIDAS, CALENDÁRIO E RESULTADOS -->
                     <div id="tab-partidas" class="studio-tab-content">
                         <div class="control-card">
@@ -610,6 +568,72 @@
                 radio.closest('.format-option').classList.add('active');
             });
         });
+        function toggleParticipantModal(show) {
+    const modal = document.getElementById('participant-modal');
+    if (show) {
+        modal.classList.remove('hidden');
+    } else {
+        modal.classList.add('hidden');
+    }
+}
+
+function closeModalOnBackdrop(event) {
+    if (event.target.id === 'participant-modal') {
+        toggleParticipantModal(false);
+    }
+}
     </script>
+    <!-- MODAL / POPUP: ADICIONAR PARTICIPANTE -->
+<div id="participant-modal" class="modal-backdrop hidden" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-card-glow">
+        <div class="modal-header">
+            <div>
+                <span class="status-tag">Novo Cadastro</span>
+                <h2>Adicionar Participante</h2>
+            </div>
+            <button type="button" class="modal-close-btn" onclick="toggleParticipantModal(false)" title="Fechar">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <div class="control-group">
+                <label>Nome do Participante, Equipe ou Piloto</label>
+                <input type="text" class="form-input" placeholder="Ex: Scuderia Verde / João Silva">
+            </div>
+
+            <div class="two-cols-row">
+                <div class="control-group">
+                    <label>Sigla (3 letras)</label>
+                    <input type="text" class="form-input" maxlength="3" placeholder="Ex: SCV">
+                </div>
+                <div class="control-group">
+                    <label>Grupo / Categoria (Opcional)</label>
+                    <input type="text" class="form-input" placeholder="Ex: Grupo A">
+                </div>
+            </div>
+
+            <div class="two-cols-row">
+                <div class="control-group">
+                    <label>Escudo / Logo / Foto</label>
+                    <label class="file-upload-btn">
+                        <span>🖼️ Escolher Imagem</span>
+                        <input type="file" accept="image/*" hidden>
+                    </label>
+                </div>
+                <div class="control-group">
+                    <label>Bandeira / Nacionalidade</label>
+                    <label class="file-upload-btn">
+                        <span>🏳️ Inserir Bandeira</span>
+                        <input type="file" accept="image/*" hidden>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn-secondary-outline" onclick="toggleParticipantModal(false)">Cancelar</button>
+            <button type="button" class="btn-save-changes" onclick="toggleParticipantModal(false)">+ Adicionar à Tabela</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

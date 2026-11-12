@@ -67,6 +67,24 @@ def perfil():
     tabelas_salvas = session.get('tabelas_salvas', [])
     return render_template('perfil.html', tabelas=tabelas_salvas)
 
+@app.route('/atualizar-perfil', methods=['POST'])
+def atualizar_perfil():
+    if 'usuario' not in session:
+        return redirect(url_for('auth'))
+    
+    novo_nome = request.form.get('novo_nome', '').strip()
+    if novo_nome:
+        partes = novo_nome.split()
+        iniciais = (partes[0][0] + partes[-1][0]).upper() if len(partes) > 1 else novo_nome[:2].upper()
+        
+        usuario = session['usuario']
+        usuario['nome'] = novo_nome
+        usuario['iniciais'] = iniciais
+        session['usuario'] = usuario
+        session.modified = True
+
+    return redirect(url_for('perfil'))
+
 @app.route('/logout')
 def logout():
     session.clear()
