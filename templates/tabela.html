@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RankEngine - Visualização da Tabela</title>
+    <title>RankEngine - {{ torneio.nome if torneio else 'Visualização da Tabela' }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Mesma ambientação sutil de dados e partículas -->
+    <!-- Ambientação sutil de dados e partículas -->
     <div class="data-ambient-bg" aria-hidden="true">
         <div class="grid-overlay"></div>
         <svg class="floating-data-graphic graphic-left" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,6 @@
         <span class="particle p5"></span>
     </div>
 
-    <!-- Mesmo Cabeçalho da Página Inicial -->
     {% include '_header.html' %}
 
     <!-- Área Central da Tabela -->
@@ -41,11 +40,23 @@
             <!-- Barra superior da tabela com título e botão Editar Tabela -->
             <div class="table-header-bar animate-fade-up delay-1">
                 <div class="table-info">
-                    <span class="status-tag">Pré-visualização Ativa</span>
-                    <h1 class="table-main-title">Classificação Geral <span class="highlight">RankEngine</span></h1>
+                    <span class="status-tag">
+                        {% if torneio %}
+                            {{ torneio.modalidade|capitalize }} {% if torneio.temporada %}• {{ torneio.temporada }}{% endif %}
+                        {% else %}
+                            Nova Tabela
+                        {% endif %}
+                    </span>
+                    <h1 class="table-main-title">
+                        {% if torneio %}
+                            {{ torneio.nome }}
+                        {% else %}
+                            Classificação Geral <span class="highlight">RankEngine</span>
+                        {% endif %}
+                    </h1>
                 </div>
 
-                <a href="/editar-tabela" class="btn-edit-table">
+                <a href="{{ '/editar-tabela/' ~ torneio.id if torneio else '/editar-tabela' }}" class="btn-edit-table">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -72,35 +83,42 @@
                             </tr>
                         </thead>
                         <tbody>
-    {% if competidores %}
-        {% for comp in competidores %}
-        <tr>
-            <td><span class="pos-badge">{{ loop.index }}º</span></td>
-            <td class="competitor-cell">
-                <span class="team-dot"></span>
-                <strong>{{ comp.nome }}</strong>
-            </td>
-            <td class="pts-highlight">{{ comp.pts }}</td>
-            <td>{{ comp.pj }}</td>
-            <td>{{ comp.vit }}</td>
-            <td>{{ comp.emp }}</td>
-            <td>{{ comp.der }}</td>
-            <td>{{ comp.saldo }}</td>
-            <td>{{ comp.aprov }}%</td>
-        </tr>
-        {% endfor %}
-    {% else %}
-        <tr class="empty-table-row">
-            <td colspan="9">
-                <div class="empty-state-box">
-                    <span class="empty-icon">📊</span>
-                    <h3>Sua tabela ainda está vazia</h3>
-                    <p>Nenhum competidor ou partida foi adicionado ainda. Clique em <strong>"Editar tabela"</strong> acima para começar a preencher.</p>
-                </div>
-            </td>
-        </tr>
-    {% endif %}
-</tbody>
+                            {% if competidores %}
+                                {% for comp in competidores %}
+                                <tr class="{% if comp.posicao_ranking == 1 %}rank-top-1{% endif %}">
+                                    <td>
+                                        <span class="pos-badge {% if comp.posicao_ranking == 1 %}gold{% elif comp.posicao_ranking == 2 %}silver{% elif comp.posicao_ranking == 3 %}bronze{% endif %}">
+                                            {{ comp.posicao_ranking }}º
+                                        </span>
+                                    </td>
+                                    <td class="competitor-cell">
+                                        <span class="team-dot"></span>
+                                        <strong>{{ comp.participante_nome }}</strong>
+                                        {% if comp.sigla %}<small style="opacity:0.65;">({{ comp.sigla }})</small>{% endif %}
+                                    </td>
+                                    <td class="pts-highlight">{{ comp.pts|int }}</td>
+                                    <td>{{ comp.pj }}</td>
+                                    <td>{{ comp.vit }}</td>
+                                    <td>{{ comp.emp }}</td>
+                                    <td>{{ comp.der }}</td>
+                                    <td class="{% if comp.saldo > 0 %}positive{% elif comp.saldo < 0 %}negative{% else %}neutral{% endif %}">
+                                        {{ '+' ~ comp.saldo if comp.saldo > 0 else comp.saldo }}
+                                    </td>
+                                    <td>{{ comp.aproveitamento }}%</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr class="empty-table-row">
+                                    <td colspan="9">
+                                        <div class="empty-state-box">
+                                            <span class="empty-icon">📊</span>
+                                            <h3>Sua tabela ainda está vazia</h3>
+                                            <p>Nenhum competidor ou partida foi adicionado ainda. Clique em <strong>"Editar tabela"</strong> acima para começar a preencher.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -108,7 +126,7 @@
         </div>
     </main>
 
-    <!-- Mesmo Rodapé -->
+    <!-- Rodapé -->
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-brand">
@@ -121,7 +139,7 @@
                     <h4>Plataforma</h4>
                     <ul>
                         <li><a href="/tabela">Criar Tabela</a></li>
-                        <li><a href="#">Modelos de Ranking</a></li>
+                        <li><a href="/minhas-tabelas">Tabelas Criadas</a></li>
                         <li><a href="#">Documentação SQL</a></li>
                     </ul>
                 </div>

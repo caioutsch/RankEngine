@@ -30,92 +30,93 @@
         <span class="particle p5"></span>
     </div>
 
-    <!-- Cabeçalho Superior -->
     {% include '_header.html' %}
 
     <!-- Área Principal do Perfil -->
     <main class="profile-workspace">
         <div class="profile-container">
 
-            <!-- Card Superior do Perfil -->
-<!-- Card Superior do Perfil -->
-<section class="profile-hero-card animate-fade-up delay-1">
-    <div class="profile-identity">
-        <div class="profile-avatar-large">
-            <span>{{ usuario.iniciais }}</span>
-        </div>
-        <div class="profile-details">
-            <span class="status-tag">Membro RankEngine</span>
-            
-            <!-- Exibição do Nome + Botão de Editar -->
-            <div id="profile-name-display" class="profile-name-row">
-                <h1 class="profile-name">{{ usuario.nome }}</h1>
-                <button type="button" class="btn-edit-name" onclick="toggleEditName(true)" title="Alterar nome">
-                    ✎ Editar nome
-                </button>
-            </div>
+            <!-- Card Superior do Perfil com Edição Funcional de Nome -->
+            <section class="profile-hero-card animate-fade-up delay-1">
+                <div class="profile-identity">
+                    <div class="profile-avatar-large">
+                        <span>{{ usuario.iniciais }}</span>
+                    </div>
+                    <div class="profile-details">
+                        <span class="status-tag">Membro RankEngine</span>
+                        
+                        <div id="profile-name-display" class="profile-name-row">
+                            <h1 class="profile-name">{{ usuario.nome }}</h1>
+                            <button type="button" class="btn-edit-name" onclick="toggleEditName(true)" title="Alterar nome">
+                                ✎ Editar nome
+                            </button>
+                        </div>
 
-            <!-- Formulário oculto para alterar o nome -->
-            <form id="profile-name-form" class="profile-edit-form hidden" method="POST" action="/atualizar-perfil">
-                <input type="text" name="novo_nome" class="form-input" value="{{ usuario.nome }}" required>
-                <button type="submit" class="btn-primary-sm">Salvar</button>
-                <button type="button" class="btn-secondary-outline" onclick="toggleEditName(false)">Cancelar</button>
-            </form>
+                        <form id="profile-name-form" class="profile-edit-form hidden" method="POST" action="/atualizar-perfil">
+                            <input type="text" name="novo_nome" class="form-input" value="{{ usuario.nome }}" required>
+                            <button type="submit" class="btn-primary-sm">Salvar</button>
+                            <button type="button" class="btn-secondary-outline" onclick="toggleEditName(false)">Cancelar</button>
+                        </form>
 
-            <p class="profile-bio">{{ usuario.email }}</p>
-        </div>
-    </div>
-
-    <div class="profile-actions">
-        <a href="/tabela" class="btn-primary-sm">+ Nova Tabela</a>
-        <a href="/logout" class="btn-secondary-outline">Sair</a>
-    </div>
-</section>
-
-<!-- Estatísticas Reais (Zeradas inicialmente) -->
-<section class="profile-stats-grid animate-fade-up delay-2">
-    <div class="stat-box">
-        <span class="stat-value">{{ tabelas|length }}</span>
-        <span class="stat-label">Tabelas Criadas</span>
-    </div>
-    <div class="stat-box">
-        <span class="stat-value">0</span>
-        <span class="stat-label">Competidores Gerenciados</span>
-    </div>
-    <div class="stat-box">
-        <span class="stat-value">0</span>
-        <span class="stat-label">Partidas Registradas</span>
-    </div>
-</section>
-
-<!-- Lista Real de Tabelas Salvas -->
-<section class="saved-tables-section animate-fade-up delay-3">
-    <div class="section-header-row">
-        <h2>Minhas Tabelas Salvas</h2>
-        <span class="section-count">{{ tabelas|length }} projeto(s)</span>
-    </div>
-
-    {% if tabelas %}
-        <div class="saved-tables-grid">
-            {% for tab in tabelas %}
-            <div class="saved-table-card">
-                <h3>{{ tab.titulo }}</h3>
-                <div class="card-footer-actions">
-                    <a href="/tabela" class="btn-card-view">Visualizar</a>
-                    <a href="/editar-tabela" class="btn-card-edit">Editar</a>
+                        <p class="profile-bio">{{ usuario.email }}</p>
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="empty-card-panel">
-            <span class="empty-icon">📋</span>
-            <h3>Nenhuma tabela criada ainda</h3>
-            <p>Suas tabelas criadas aparecerão aqui automaticamente.</p>
-            <a href="/tabela" class="btn-primary-sm">Criar Primeira Tabela</a>
-        </div>
-    {% endif %}
-</section>
+
+                <div class="profile-actions">
+                    <a href="/editar-tabela" class="btn-primary-sm">+ Nova Tabela</a>
+                    <a href="/logout" class="btn-secondary-outline">Sair</a>
+                </div>
+            </section>
+
+            <!-- Estatísticas Reais do Usuário -->
+            <section class="profile-stats-grid animate-fade-up delay-2">
+                <div class="stat-box">
+                    <span class="stat-value">{{ tabelas|length }}</span>
+                    <span class="stat-label">Tabelas Criadas</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">{{ tabelas|sum(attribute='qtd_participantes') if tabelas else 0 }}</span>
+                    <span class="stat-label">Vagas Configuradas</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">Ativo</span>
+                    <span class="stat-label">Status da Conta</span>
+                </div>
+            </section>
+
+            <!-- Lista Real de Tabelas Salvas pelo Usuário -->
+            <section class="saved-tables-section animate-fade-up delay-3">
+                <div class="section-header-row">
+                    <h2>Minhas Tabelas Salvas</h2>
+                    <span class="section-count">{{ tabelas|length }} projeto(s)</span>
+                </div>
+
+                {% if tabelas %}
+                    <div class="saved-tables-grid">
+                        {% for tab in tabelas %}
+                        <div class="saved-table-card">
+                            <div class="card-top">
+                                <span class="table-type-badge">{{ tab.modalidade|capitalize }}</span>
+                                <span class="updated-time">{{ tab.formato.replace('_', ' ')|capitalize }}</span>
+                            </div>
+                            <h3>{{ tab.nome }}</h3>
+                            <p>{{ tab.temporada if tab.temporada else 'Temporada padrão' }} • {{ tab.qtd_participantes }} vagas</p>
+                            <div class="card-footer-actions">
+                                <a href="/tabela/{{ tab.id }}" class="btn-card-view">Visualizar</a>
+                                <a href="/editar-tabela/{{ tab.id }}" class="btn-card-edit">Editar</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-card-panel">
+                        <span class="empty-icon">📋</span>
+                        <h3>Nenhuma tabela criada ainda</h3>
+                        <p>Suas tabelas criadas aparecerão aqui automaticamente assim que você salvar uma estrutura.</p>
+                        <a href="/editar-tabela" class="btn-primary-sm">Criar Primeira Tabela</a>
+                    </div>
+                {% endif %}
+            </section>
 
         </div>
     </main>
@@ -133,7 +134,7 @@
                     <h4>Plataforma</h4>
                     <ul>
                         <li><a href="/tabela">Criar Tabela</a></li>
-                        <li><a href="#">Modelos de Ranking</a></li>
+                        <li><a href="/minhas-tabelas">Tabelas Criadas</a></li>
                         <li><a href="#">Documentação SQL</a></li>
                     </ul>
                 </div>
@@ -150,19 +151,20 @@
             <p>&copy; 2026 RankEngine. Desenvolvido para visualização e análise de dados.</p>
         </div>
     </footer>
+
     <script>
-    function toggleEditName(editing) {
-        const display = document.getElementById('profile-name-display');
-        const form = document.getElementById('profile-name-form');
-        if (editing) {
-            display.classList.add('hidden');
-            form.classList.remove('hidden');
-            form.querySelector('input').focus();
-        } else {
-            form.classList.add('hidden');
-            display.classList.remove('hidden');
+        function toggleEditName(editing) {
+            const display = document.getElementById('profile-name-display');
+            const form = document.getElementById('profile-name-form');
+            if (editing) {
+                display.classList.add('hidden');
+                form.classList.remove('hidden');
+                form.querySelector('input').focus();
+            } else {
+                form.classList.add('hidden');
+                display.classList.remove('hidden');
+            }
         }
-    }
-</script>
+    </script>
 </body>
 </html>

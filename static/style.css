@@ -1899,3 +1899,57 @@ body {
     padding-top: 14px;
     border-top: 1px solid var(--color-bg-light);
 }
+
+/* =========================================
+   BOTÃO & MODAL DE REGISTRAR PARTIDA
+   ========================================= */
+.btn-add-match-trigger {
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+    border: 2px solid var(--color-green-dark);
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(47, 94, 73, 0.12);
+    transition: all 0.2s ease;
+}
+
+.btn-add-match-trigger:hover {
+    background-color: var(--color-mint);
+    transform: translateY(-1px);
+}
+
+.three-cols-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr;
+    gap: 10px;
+}
+
+.match-modal-scoreboard {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: end;
+    background-color: var(--color-bg-light);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1.5px dashed var(--color-green-medium);
+}
+
+.score-inputs-center {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.score-big {
+    width: 56px;
+    height: 44px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    background-color: var(--color-white);
+}
