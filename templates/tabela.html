@@ -32,25 +32,7 @@
     </div>
 
     <!-- Mesmo Cabeçalho da Página Inicial -->
-    <header class="top-header">
-        <div class="header-container">
-            <a href="/" class="brand-logo">
-                <span class="brand-rank">Rank</span><span class="brand-engine">Engine</span>
-            </a>
-
-            <div class="header-actions">
-                <a href="/auth" class="btn-login" title="Acessar conta">
-                    <div class="avatar-placeholder">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <span>Entrar</span>
-                </a>
-            </div>
-        </div>
-    </header>
+    {% include '_header.html' %}
 
     <!-- Área Central da Tabela -->
     <main class="table-workspace">
@@ -90,91 +72,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="rank-top-1">
-                                <td><span class="pos-badge gold">1º</span></td>
-                                <td class="competitor-cell">
-                                    <span class="team-dot"></span>
-                                    <strong>Apex Racing Team</strong>
-                                </td>
-                                <td class="pts-highlight">28</td>
-                                <td>10</td>
-                                <td>9</td>
-                                <td>1</td>
-                                <td>0</td>
-                                <td class="positive">+21</td>
-                                <td>93.3%</td>
-                            </tr>
-                            <tr>
-                                <td><span class="pos-badge silver">2º</span></td>
-                                <td class="competitor-cell">
-                                    <span class="team-dot"></span>
-                                    <strong>Velocity Motorsport</strong>
-                                </td>
-                                <td class="pts-highlight">23</td>
-                                <td>10</td>
-                                <td>7</td>
-                                <td>2</td>
-                                <td>1</td>
-                                <td class="positive">+14</td>
-                                <td>76.6%</td>
-                            </tr>
-                            <tr>
-                                <td><span class="pos-badge bronze">3º</span></td>
-                                <td class="competitor-cell">
-                                    <span class="team-dot"></span>
-                                    <strong>Emerald Dynamics</strong>
-                                </td>
-                                <td class="pts-highlight">19</td>
-                                <td>10</td>
-                                <td>6</td>
-                                <td>1</td>
-                                <td>3</td>
-                                <td class="positive">+8</td>
-                                <td>63.3%</td>
-                            </tr>
-                            <tr>
-                                <td><span class="pos-badge">4º</span></td>
-                                <td class="competitor-cell">
-                                    <span class="team-dot"></span>
-                                    <strong>Horizon Squad</strong>
-                                </td>
-                                <td class="pts-highlight">15</td>
-                                <td>10</td>
-                                <td>4</td>
-                                <td>3</td>
-                                <td>3</td>
-                                <td class="neutral">+1</td>
-                                <td>50.0%</td>
-                            </tr>
-                            <tr>
-                                <td><span class="pos-badge">5º</span></td>
-                                <td class="competitor-cell">
-                                    <span class="team-dot"></span>
-                                    <strong>Nova Pulse</strong>
-                                </td>
-                                <td class="pts-highlight">11</td>
-                                <td>10</td>
-                                <td>3</td>
-                                <td>2</td>
-                                <td>5</td>
-                                <td class="negative">-6</td>
-                                <td>36.6%</td>
-                            </tr>
-                            <tr>
-                                <td><span class="pos-badge">6º</span></td>
-                                <td class="competitor-cell">
-                                    <span class="team-dot"></span>
-                                    <strong>Titan Core</strong>
-                                </td>
-                                <td class="pts-highlight">6</td>
-                                <td>10</td>
-                                <td>1</td>
-                                <td>3</td>
-                                <td>6</td>
-                                <td class="negative">-15</td>
-                                <td>20.0%</td>
-                            </tr>
-                        </tbody>
+    {% if competidores %}
+        {% for comp in competidores %}
+        <tr>
+            <td><span class="pos-badge">{{ loop.index }}º</span></td>
+            <td class="competitor-cell">
+                <span class="team-dot"></span>
+                <strong>{{ comp.nome }}</strong>
+            </td>
+            <td class="pts-highlight">{{ comp.pts }}</td>
+            <td>{{ comp.pj }}</td>
+            <td>{{ comp.vit }}</td>
+            <td>{{ comp.emp }}</td>
+            <td>{{ comp.der }}</td>
+            <td>{{ comp.saldo }}</td>
+            <td>{{ comp.aprov }}%</td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr class="empty-table-row">
+            <td colspan="9">
+                <div class="empty-state-box">
+                    <span class="empty-icon">📊</span>
+                    <h3>Sua tabela ainda está vazia</h3>
+                    <p>Nenhum competidor ou partida foi adicionado ainda. Clique em <strong>"Editar tabela"</strong> acima para começar a preencher.</p>
+                </div>
+            </td>
+        </tr>
+    {% endif %}
+</tbody>
                     </table>
                 </div>
             </div>

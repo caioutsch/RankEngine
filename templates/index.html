@@ -42,25 +42,7 @@
     </div>
 
     <!-- Cabeçalho Superior -->
-    <header class="top-header">
-        <div class="header-container">
-            <a href="/" class="brand-logo">
-                <span class="brand-rank">Rank</span><span class="brand-engine">Engine</span>
-            </a>
-
-            <div class="header-actions">
-                <a href="/auth" class="btn-login" title="Acessar conta">
-                    <div class="avatar-placeholder">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <span>Entrar</span>
-                </a>
-            </div>
-        </div>
-    </header>
+    {% include '_header.html' %}
 
     <!-- Conteúdo Principal -->
     <main class="hero">
@@ -78,9 +60,10 @@
                 Crie, gerencie e ordene seus campeonatos, rankings ou métricas com estrutura relacional inteligente e totalmente do seu jeito.
             </p>
             
-            <div class="cta-wrapper animate-fade-up delay-4">
-                <a href="/tabela" class="btn-primary">Criar tabela</a>
-            </div>
+            <div class="cta-wrapper hero-cta-group animate-fade-up delay-4">
+    <a href="/tabela" class="btn-primary">Criar tabela</a>
+    <a href="/minhas-tabelas" class="btn-secondary-hero">Editar tabela já existente</a>
+</div>
         </div>
     </main>
 

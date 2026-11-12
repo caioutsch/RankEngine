@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RankEngine - Tabelas Criadas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="data-ambient-bg" aria-hidden="true">
+        <div class="grid-overlay"></div>
+        <span class="particle p1"></span>
+        <span class="particle p2"></span>
+        <span class="particle p3"></span>
+        <span class="particle p4"></span>
+        <span class="particle p5"></span>
+    </div>
+
+    {% include '_header.html' %}
+
+    <main class="profile-workspace">
+        <div class="profile-container">
+            
+            <div class="editor-top-bar animate-fade-up delay-1">
+                <div>
+                    <span class="status-tag">Repositório Pessoal</span>
+                    <h1 class="table-main-title">Tabelas Criadas por <span class="highlight">{{ usuario.nome }}</span></h1>
+                </div>
+                <a href="/tabela" class="btn-primary-sm">+ Criar Nova Tabela</a>
+            </div>
+
+            {% if tabelas %}
+                <div class="saved-tables-grid animate-fade-up delay-2">
+                    {% for tab in tabelas %}
+                    <div class="saved-table-card">
+                        <div class="card-top">
+                            <span class="table-type-badge">{{ tab.tipo }}</span>
+                            <span class="updated-time">{{ tab.atualizado_em }}</span>
+                        </div>
+                        <h3>{{ tab.titulo }}</h3>
+                        <p>{{ tab.qtd_competidores }} competidores registrados</p>
+                        <div class="card-footer-actions">
+                            <a href="/tabela" class="btn-card-view">Visualizar</a>
+                            <a href="/editar-tabela" class="btn-card-edit">Editar</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-card-panel animate-fade-up delay-2">
+                    <span class="empty-icon">🗂️</span>
+                    <h3>Você ainda não possui tabelas salvas</h3>
+                    <p>Crie sua primeira tabela personalizada agora e ela ficará salva aqui no seu histórico.</p>
+                    <a href="/tabela" class="btn-primary-sm">Começar Primeira Tabela</a>
+                </div>
+            {% endif %}
+
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 RankEngine. Desenvolvido para visualização e análise de dados.</p>
+        </div>
+    </footer>
+</body>
+</html>

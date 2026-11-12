@@ -31,25 +31,7 @@
     </div>
 
     <!-- Cabeçalho Superior -->
-    <header class="top-header">
-        <div class="header-container">
-            <a href="/" class="brand-logo">
-                <span class="brand-rank">Rank</span><span class="brand-engine">Engine</span>
-            </a>
-
-            <div class="header-actions">
-                <a href="/perfil" class="btn-login" title="Ver prévia do perfil">
-                    <div class="avatar-placeholder">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <span>Meu Perfil</span>
-                </a>
-            </div>
-        </div>
-    </header>
+    {% include '_header.html' %}
 
     <!-- Área Central de Autenticação -->
     <main class="auth-workspace">
@@ -68,22 +50,43 @@
             </div>
 
             <!-- Formulário de Login -->
-            <form id="form-login" class="auth-form">
-                <div class="control-group">
-                    <label for="login-email">E-mail</label>
-                    <input type="email" id="login-email" class="form-input" placeholder="seu@email.com">
-                </div>
+            <!-- Formulário de Login -->
+<form id="form-login" class="auth-form" method="POST" action="/auth">
+    <div class="control-group">
+        <label for="login-email">E-mail</label>
+        <input type="email" name="email" id="login-email" class="form-input" placeholder="seu@email.com" required>
+    </div>
 
-                <div class="control-group">
-                    <div class="label-row">
-                        <label for="login-pass">Senha</label>
-                        <a href="#" class="forgot-link">Esqueceu a senha?</a>
-                    </div>
-                    <input type="password" id="login-pass" class="form-input" placeholder="••••••••">
-                </div>
+    <div class="control-group">
+        <div class="label-row">
+            <label for="login-pass">Senha</label>
+            <a href="#" class="forgot-link">Esqueceu a senha?</a>
+        </div>
+        <input type="password" name="senha" id="login-pass" class="form-input" placeholder="••••••••" required>
+    </div>
 
-                <a href="/perfil" class="btn-auth-submit">Entrar na Conta</a>
-            </form>
+    <button type="submit" class="btn-auth-submit">Entrar na Conta</button>
+</form>
+
+<!-- Formulário de Cadastro -->
+<form id="form-register" class="auth-form hidden" method="POST" action="/auth">
+    <div class="control-group">
+        <label for="reg-name">Nome ou Nickname</label>
+        <input type="text" name="nome" id="reg-name" class="form-input" placeholder="Seu nome" required>
+    </div>
+
+    <div class="control-group">
+        <label for="reg-email">E-mail</label>
+        <input type="email" name="email" id="reg-email" class="form-input" placeholder="seu@email.com" required>
+    </div>
+
+    <div class="control-group">
+        <label for="reg-pass">Criar Senha</label>
+        <input type="password" name="senha" id="reg-pass" class="form-input" placeholder="Mínimo 8 caracteres" required>
+    </div>
+
+    <button type="submit" class="btn-auth-submit">Finalizar Cadastro</button>
+</form>
 
             <!-- Formulário de Cadastro (Oculto inicialmente) -->
             <form id="form-register" class="auth-form hidden">

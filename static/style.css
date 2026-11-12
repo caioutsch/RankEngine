@@ -1387,3 +1387,82 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================
+   BOTÕES DUPLOS NA HOME & ESTADOS VAZIOS
+   ========================================= */
+.hero-cta-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.btn-secondary-hero {
+    display: inline-block;
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 16px 32px;
+    border-radius: 10px;
+    border: 2px solid var(--color-green-medium);
+    box-shadow: 0 6px 18px rgba(47, 94, 73, 0.08);
+    transition: all 0.25s ease;
+}
+
+.btn-secondary-hero:hover {
+    background-color: var(--color-mint);
+    border-color: var(--color-green-dark);
+    transform: translateY(-2px);
+}
+
+/* Estado Vazio dentro da Tabela e nos Cards */
+.empty-table-row td {
+    padding: 64px 24px !important;
+    background-color: rgba(234, 246, 240, 0.45);
+}
+
+.empty-state-box,
+.empty-card-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+}
+
+.empty-card-panel {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1.5px dashed var(--color-green-medium);
+    border-radius: 16px;
+    padding: 48px 24px;
+}
+
+.empty-icon {
+    font-size: 2.2rem;
+}
+
+.empty-state-box h3,
+.empty-card-panel h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--color-green-dark);
+}
+
+.empty-state-box p,
+.empty-card-panel p {
+    font-size: 0.92rem;
+    max-width: 460px;
+    opacity: 0.8;
+    line-height: 1.5;
+}
+
+.btn-auth-submit {
+    width: 100%;
+    cursor: pointer;
+    font-family: var(--font-family);
+}

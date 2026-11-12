@@ -31,114 +31,75 @@
     </div>
 
     <!-- Cabeçalho Superior -->
-    <header class="top-header">
-        <div class="header-container">
-            <a href="/" class="brand-logo">
-                <span class="brand-rank">Rank</span><span class="brand-engine">Engine</span>
-            </a>
-
-            <div class="header-actions">
-                <a href="/auth" class="btn-login" title="Ir para tela de Login">
-                    <div class="avatar-placeholder active-user">
-                        <span>CU</span>
-                    </div>
-                    <span>Caio Utsch</span>
-                </a>
-            </div>
-        </div>
-    </header>
+    {% include '_header.html' %}
 
     <!-- Área Principal do Perfil -->
     <main class="profile-workspace">
         <div class="profile-container">
 
-            <!-- Card Superior do Perfil com Glow -->
-            <section class="profile-hero-card animate-fade-up delay-1">
-                <div class="profile-identity">
-                    <div class="profile-avatar-large">
-                        <span>CU</span>
-                        <button type="button" class="avatar-edit-badge" title="Alterar foto">✎</button>
-                    </div>
-                    <div class="profile-details">
-                        <span class="status-tag">Organizador Verificado</span>
-                        <h1 class="profile-name">Caio Utsch</h1>
-                        <p class="profile-bio">Engenharia de Software • Criando tabelas dinâmicas, rankings e análises de dados.</p>
-                    </div>
-                </div>
+            <!-- Card Superior do Perfil -->
+<section class="profile-hero-card animate-fade-up delay-1">
+    <div class="profile-identity">
+        <div class="profile-avatar-large">
+            <span>{{ usuario.iniciais }}</span>
+        </div>
+        <div class="profile-details">
+            <span class="status-tag">Membro RankEngine</span>
+            <h1 class="profile-name">{{ usuario.nome }}</h1>
+            <p class="profile-bio">{{ usuario.email }}</p>
+        </div>
+    </div>
 
-                <div class="profile-actions">
-                    <a href="/tabela" class="btn-primary-sm">+ Nova Tabela</a>
-                    <a href="/auth" class="btn-secondary-outline">Sair</a>
-                </div>
-            </section>
+    <div class="profile-actions">
+        <a href="/tabela" class="btn-primary-sm">+ Nova Tabela</a>
+        <a href="/logout" class="btn-secondary-outline">Sair</a>
+    </div>
+</section>
 
-            <!-- Estatísticas Rápidas do Usuário -->
-            <section class="profile-stats-grid animate-fade-up delay-2">
-                <div class="stat-box">
-                    <span class="stat-value">4</span>
-                    <span class="stat-label">Tabelas Criadas</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-value">32</span>
-                    <span class="stat-label">Competidores Gerenciados</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-value">118</span>
-                    <span class="stat-label">Partidas Registradas</span>
-                </div>
-            </section>
+<!-- Estatísticas Reais (Zeradas inicialmente) -->
+<section class="profile-stats-grid animate-fade-up delay-2">
+    <div class="stat-box">
+        <span class="stat-value">{{ tabelas|length }}</span>
+        <span class="stat-label">Tabelas Criadas</span>
+    </div>
+    <div class="stat-box">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Competidores Gerenciados</span>
+    </div>
+    <div class="stat-box">
+        <span class="stat-value">0</span>
+        <span class="stat-label">Partidas Registradas</span>
+    </div>
+</section>
 
-            <!-- Lista de Tabelas Salvas pelo Usuário -->
-            <section class="saved-tables-section animate-fade-up delay-3">
-                <div class="section-header-row">
-                    <h2>Minhas Tabelas Salvas</h2>
-                    <span class="section-count">4 projetos ativos</span>
+<!-- Lista Real de Tabelas Salvas -->
+<section class="saved-tables-section animate-fade-up delay-3">
+    <div class="section-header-row">
+        <h2>Minhas Tabelas Salvas</h2>
+        <span class="section-count">{{ tabelas|length }} projeto(s)</span>
+    </div>
+
+    {% if tabelas %}
+        <div class="saved-tables-grid">
+            {% for tab in tabelas %}
+            <div class="saved-table-card">
+                <h3>{{ tab.titulo }}</h3>
+                <div class="card-footer-actions">
+                    <a href="/tabela" class="btn-card-view">Visualizar</a>
+                    <a href="/editar-tabela" class="btn-card-edit">Editar</a>
                 </div>
-
-                <div class="saved-tables-grid">
-                    <!-- Card Tabela 1 -->
-                    <div class="saved-table-card">
-                        <div class="card-top">
-                            <span class="table-type-badge">Pontos Corridos</span>
-                            <span class="updated-time">Atualizado hoje</span>
-                        </div>
-                        <h3>Classificação Geral RankEngine</h3>
-                        <p>6 competidores • 10 rodadas disputadas</p>
-                        <div class="card-footer-actions">
-                            <a href="/tabela" class="btn-card-view">Visualizar</a>
-                            <a href="/editar-tabela" class="btn-card-edit">Editar</a>
-                        </div>
-                    </div>
-
-                    <!-- Card Tabela 2 -->
-                    <div class="saved-table-card">
-                        <div class="card-top">
-                            <span class="table-type-badge">Automobilismo</span>
-                            <span class="updated-time">Há 3 dias</span>
-                        </div>
-                        <h3>Copa TrackDay 2026</h3>
-                        <p>12 pilotos • Critério por tempo e pontuação</p>
-                        <div class="card-footer-actions">
-                            <a href="/tabela" class="btn-card-view">Visualizar</a>
-                            <a href="/editar-tabela" class="btn-card-edit">Editar</a>
-                        </div>
-                    </div>
-
-                    <!-- Card Tabela 3 -->
-                    <div class="saved-table-card">
-                        <div class="card-top">
-                            <span class="table-type-badge">E-Sports</span>
-                            <span class="updated-time">Há 1 semana</span>
-                        </div>
-                        <h3>Torneio Interturmas PUC</h3>
-                        <p>8 equipes • Fase de grupos</p>
-                        <div class="card-footer-actions">
-                            <a href="/tabela" class="btn-card-view">Visualizar</a>
-                            <a href="/editar-tabela" class="btn-card-edit">Editar</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-card-panel">
+            <span class="empty-icon">📋</span>
+            <h3>Nenhuma tabela criada ainda</h3>
+            <p>Suas tabelas criadas aparecerão aqui automaticamente.</p>
+            <a href="/tabela" class="btn-primary-sm">Criar Primeira Tabela</a>
+        </div>
+    {% endif %}
+</section>
 
         </div>
     </main>
