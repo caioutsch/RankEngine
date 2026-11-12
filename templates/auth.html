@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RankEngine - Entrar ou Cadastrar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Ambientação sutil de dados e partículas -->
+    <div class="data-ambient-bg" aria-hidden="true">
+        <div class="grid-overlay"></div>
+        <svg class="floating-data-graphic graphic-left" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="30" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1.5"/>
+            <line x1="60" y1="30" x2="60" y2="150" stroke="#78B89A" stroke-width="1.5"/>
+            <line x1="130" y1="30" x2="130" y2="150" stroke="#78B89A" stroke-width="1.5"/>
+            <rect x="20" y="64" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1"/>
+        </svg>
+
+        <svg class="floating-data-graphic graphic-right" viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 140 L65 105 L110 120 L155 60 L200 35" stroke="#78B89A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="200" cy="35" r="5" fill="#78B89A"/>
+        </svg>
+
+        <span class="particle p1"></span>
+        <span class="particle p2"></span>
+        <span class="particle p3"></span>
+        <span class="particle p4"></span>
+        <span class="particle p5"></span>
+    </div>
+
+    <!-- Cabeçalho Superior -->
+    <header class="top-header">
+        <div class="header-container">
+            <a href="/" class="brand-logo">
+                <span class="brand-rank">Rank</span><span class="brand-engine">Engine</span>
+            </a>
+
+            <div class="header-actions">
+                <a href="/perfil" class="btn-login" title="Ver prévia do perfil">
+                    <div class="avatar-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <span>Meu Perfil</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Área Central de Autenticação -->
+    <main class="auth-workspace">
+        <div class="auth-card-glow animate-fade-up delay-1">
+            
+            <div class="auth-header">
+                <span class="status-tag">Acesso à Plataforma</span>
+                <h1 class="auth-title">Bem-vindo à <span class="highlight">RankEngine</span></h1>
+                <p class="auth-subtitle">Salve suas tabelas, gerencie campeonatos e acompanhe métricas em tempo real.</p>
+            </div>
+
+            <!-- Abas visuais Login / Cadastro -->
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab active" onclick="switchAuthTab('login', this)">Entrar</button>
+                <button type="button" class="auth-tab" onclick="switchAuthTab('register', this)">Criar Conta</button>
+            </div>
+
+            <!-- Formulário de Login -->
+            <form id="form-login" class="auth-form">
+                <div class="control-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="seu@email.com">
+                </div>
+
+                <div class="control-group">
+                    <div class="label-row">
+                        <label for="login-pass">Senha</label>
+                        <a href="#" class="forgot-link">Esqueceu a senha?</a>
+                    </div>
+                    <input type="password" id="login-pass" class="form-input" placeholder="••••••••">
+                </div>
+
+                <a href="/perfil" class="btn-auth-submit">Entrar na Conta</a>
+            </form>
+
+            <!-- Formulário de Cadastro (Oculto inicialmente) -->
+            <form id="form-register" class="auth-form hidden">
+                <div class="control-group">
+                    <label for="reg-name">Nome ou Nickname</label>
+                    <input type="text" id="reg-name" class="form-input" placeholder="Ex: Caio Utsch">
+                </div>
+
+                <div class="control-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" class="form-input" placeholder="seu@email.com">
+                </div>
+
+                <div class="control-group">
+                    <label for="reg-pass">Criar Senha</label>
+                    <input type="password" id="reg-pass" class="form-input" placeholder="Mínimo 8 caracteres">
+                </div>
+
+                <a href="/perfil" class="btn-auth-submit">Finalizar Cadastro</a>
+            </form>
+
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">Rank<span>Engine</span></div>
+                <p>Plataforma de estruturação e ranking dinâmico impulsionada por modelagem relacional e consultas otimizadas.</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Plataforma</h4>
+                    <ul>
+                        <li><a href="/tabela">Criar Tabela</a></li>
+                        <li><a href="#">Modelos de Ranking</a></li>
+                        <li><a href="#">Documentação SQL</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Projeto</h4>
+                    <ul>
+                        <li><a href="https://github.com/caioutsch/RankEngine" target="_blank">Repositório GitHub</a></li>
+                        <li><a href="#">Arquitetura do Banco</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 RankEngine. Desenvolvido para visualização e análise de dados.</p>
+        </div>
+    </footer>
+
+    <!-- Script simples apenas para alternar visualmente entre as abas Entrar e Cadastrar -->
+    <script>
+        function switchAuthTab(tab, btn) {
+            document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (tab === 'login') {
+                document.getElementById('form-login').classList.remove('hidden');
+                document.getElementById('form-register').classList.add('hidden');
+            } else {
+                document.getElementById('form-register').classList.remove('hidden');
+                document.getElementById('form-login').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

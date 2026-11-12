@@ -999,3 +999,391 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* =========================================
+   PÁGINAS DE AUTENTICAÇÃO (LOGIN / CADASTRO)
+   ========================================= */
+.auth-workspace {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 20px 88px 20px;
+}
+
+.auth-card-glow {
+    width: 100%;
+    max-width: 460px;
+    background-color: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid var(--color-green-medium);
+    border-radius: 18px;
+    padding: 36px 32px;
+    box-shadow: 
+        0 18px 42px rgba(47, 94, 73, 0.12),
+        0 0 36px rgba(120, 184, 154, 0.35);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.auth-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--color-green-dark);
+    margin-bottom: 8px;
+    text-shadow: 0 0 18px rgba(120, 184, 154, 0.4);
+}
+
+.auth-title .highlight {
+    color: var(--color-green-medium);
+}
+
+.auth-subtitle {
+    font-size: 0.9rem;
+    color: var(--color-green-dark);
+    opacity: 0.8;
+    line-height: 1.5;
+}
+
+.auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--color-bg-light);
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid var(--color-mint);
+    margin-bottom: 24px;
+}
+
+.auth-tab {
+    background: transparent;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--color-green-dark);
+    opacity: 0.7;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.auth-tab.active {
+    background-color: var(--color-white);
+    opacity: 1;
+    box-shadow: 0 2px 8px rgba(47, 94, 73, 0.1);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.auth-form.hidden {
+    display: none;
+}
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-green-medium);
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.btn-auth-submit {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 8px;
+    background-color: var(--color-green-dark);
+    color: var(--color-white);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid var(--color-green-dark);
+    box-shadow: 0 8px 20px rgba(47, 94, 73, 0.22);
+    transition: all 0.25s ease;
+}
+
+.btn-auth-submit:hover {
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+    box-shadow: 0 10px 26px rgba(120, 184, 154, 0.45);
+}
+
+/* =========================================
+   PÁGINA DE PERFIL DO USUÁRIO
+   ========================================= */
+.avatar-placeholder.active-user {
+    background-color: var(--color-green-dark);
+    color: var(--color-white);
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.profile-workspace {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    padding: 48px 6% 88px 6%;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 1120px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.profile-hero-card {
+    background-color: rgba(255, 255, 255, 0.94);
+    border: 1.5px solid var(--color-green-medium);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    box-shadow: 
+        0 14px 36px rgba(47, 94, 73, 0.1),
+        0 0 32px rgba(120, 184, 154, 0.3);
+}
+
+.profile-identity {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.profile-avatar-large {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-green-dark), var(--color-green-medium));
+    color: var(--color-white);
+    font-size: 1.8rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 24px rgba(120, 184, 154, 0.55);
+}
+
+.avatar-edit-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+    border: 1.5px solid var(--color-green-medium);
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.profile-name {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--color-green-dark);
+    margin-bottom: 4px;
+}
+
+.profile-bio {
+    font-size: 0.95rem;
+    opacity: 0.82;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn-primary-sm {
+    text-decoration: none;
+    background-color: var(--color-green-dark);
+    color: var(--color-white);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 22px;
+    border-radius: 10px;
+    border: 2px solid var(--color-green-dark);
+    transition: all 0.2s ease;
+}
+
+.btn-primary-sm:hover {
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+}
+
+/* Métricas do Perfil */
+.profile-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.stat-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid var(--color-mint);
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(47, 94, 73, 0.05);
+}
+
+.stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-green-dark);
+    text-shadow: 0 0 16px rgba(120, 184, 154, 0.45);
+}
+
+.stat-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+/* Grid de Tabelas Salvas */
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header-row h2 {
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.section-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-green-medium);
+}
+
+.saved-tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.saved-table-card {
+    background-color: var(--color-white);
+    border: 1.5px solid var(--color-mint);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 22px rgba(47, 94, 73, 0.06);
+}
+
+.saved-table-card:hover {
+    border-color: var(--color-green-medium);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(120, 184, 154, 0.25);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-type-badge {
+    background-color: var(--color-bg-light);
+    color: var(--color-green-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.updated-time {
+    font-size: 0.78rem;
+    opacity: 0.65;
+}
+
+.saved-table-card h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.saved-table-card p {
+    font-size: 0.88rem;
+    opacity: 0.78;
+}
+
+.card-footer-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.btn-card-view,
+.btn-card-edit {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    padding: 9px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.btn-card-view {
+    background-color: var(--color-bg-light);
+    color: var(--color-green-dark);
+}
+
+.btn-card-view:hover {
+    background-color: var(--color-mint);
+}
+
+.btn-card-edit {
+    background-color: var(--color-green-dark);
+    color: var(--color-white);
+}
+
+.btn-card-edit:hover {
+    background-color: var(--color-green-medium);
+}
+
+@media (max-width: 768px) {
+    .profile-stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
