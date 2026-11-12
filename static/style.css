@@ -1,0 +1,386 @@
+/* Paleta de Cores Base */
+:root {
+    --color-white: #FFFFFF;
+    --color-bg-light: #EAF6F0;
+    --color-mint: #C5E6D6;
+    --color-green-medium: #78B89A;
+    --color-green-dark: #2F5E49;
+    --color-green-deep: #1E3F30; /* Tom mais profundo derivado da paleta para o rodapé */
+    --font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-bg-light);
+    color: var(--color-green-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* =========================================
+   AMBIENTAÇÃO DE DADOS & PARTÍCULAS (FUNDO)
+   ========================================= */
+.data-ambient-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Grade bem sutil lembrando planilha/banco de dados */
+.grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, rgba(120, 184, 154, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 184, 154, 0.12) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(circle at center, rgba(0,0,0,0.8) 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0.8) 20%, transparent 75%);
+}
+
+.floating-data-graphic {
+    position: absolute;
+    opacity: 0.22;
+}
+
+.graphic-left {
+    width: 240px;
+    top: 22%;
+    left: 4%;
+    animation: floatSlow 9s ease-in-out infinite;
+}
+
+.graphic-right {
+    width: 260px;
+    bottom: 24%;
+    right: 4%;
+    animation: floatSlow 11s ease-in-out infinite reverse;
+}
+
+/* Partículas discretas */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: var(--color-green-medium);
+    opacity: 0.28;
+    animation: pulseFloat 7s infinite ease-in-out;
+}
+
+.p1 { width: 6px; height: 6px; top: 20%; left: 25%; animation-delay: 0s; }
+.p2 { width: 9px; height: 9px; top: 35%; right: 22%; animation-delay: 1.5s; }
+.p3 { width: 5px; height: 5px; top: 65%; left: 18%; animation-delay: 3s; }
+.p4 { width: 8px; height: 8px; top: 70%; right: 28%; animation-delay: 2s; }
+.p5 { width: 6px; height: 6px; top: 18%; right: 38%; animation-delay: 4s; }
+
+/* =========================================
+   CABEÇALHO SUPERIOR (HEADER)
+   ========================================= */
+.top-header {
+    position: relative;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-mint);
+    padding: 16px 8%;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    text-decoration: none;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+}
+
+.brand-rank {
+    color: var(--color-green-dark);
+}
+
+/* Coloração diferenciada para o Engine no cabeçalho */
+.brand-engine {
+    color: var(--color-green-medium);
+    background: linear-gradient(135deg, #2F5E49 0%, #78B89A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Botão Entrar + Avatar à direita */
+.btn-login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+    border: 1.5px solid var(--color-mint);
+    padding: 6px 16px 6px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(47, 94, 73, 0.06);
+}
+
+.btn-login:hover {
+    border-color: var(--color-green-medium);
+    background-color: var(--color-bg-light);
+    transform: translateY(-1px);
+}
+
+.avatar-placeholder {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--color-mint);
+    color: var(--color-green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-placeholder svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* =========================================
+   SEÇÃO PRINCIPAL (HERO) & EFEITO GLOW
+   ========================================= */
+.hero {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 72px 24px 96px 24px;
+}
+
+.hero-content {
+    max-width: 860px;
+}
+
+.badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-mint);
+    color: var(--color-green-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 12px rgba(47, 94, 73, 0.05);
+}
+
+.badge-pill .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-green-medium);
+    box-shadow: 0 0 8px var(--color-green-medium);
+}
+
+/* Pergunta principal com efeito Glow suave */
+.hero-title {
+    font-size: 3.4rem;
+    font-weight: 800;
+    line-height: 1.18;
+    margin-bottom: 24px;
+    color: var(--color-green-dark);
+    text-shadow: 
+        0 0 24px rgba(120, 184, 154, 0.45),
+        0 0 48px rgba(197, 230, 214, 0.7);
+}
+
+.hero-title .highlight {
+    color: var(--color-green-medium);
+    text-shadow: 0 0 28px rgba(120, 184, 154, 0.65);
+}
+
+.subtitle {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--color-green-dark);
+    opacity: 0.85;
+    max-width: 640px;
+    margin: 0 auto 40px auto;
+}
+
+/* Botão Criar Tabela */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--color-green-dark);
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 16px 40px;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    border: 2px solid var(--color-green-dark);
+    box-shadow: 0 8px 20px rgba(47, 94, 73, 0.22);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(47, 94, 73, 0.18);
+}
+
+/* =========================================
+   ANIMAÇÕES DE ENTRADA SUAVES
+   ========================================= */
+@keyframes fadeUpClean {
+    0% {
+        opacity: 0;
+        transform: translateY(18px);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes floatSlow {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes pulseFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.22; }
+    50% { transform: translateY(-12px) scale(1.25); opacity: 0.45; }
+}
+
+.animate-fade-up {
+    opacity: 0;
+    animation: fadeUpClean 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.22s; }
+.delay-3 { animation-delay: 0.38s; }
+.delay-4 { animation-delay: 0.52s; }
+
+/* =========================================
+   RODAPÉ EM VERDE ESCURO
+   ========================================= */
+.main-footer {
+    position: relative;
+    z-index: 10;
+    background-color: var(--color-green-deep);
+    color: var(--color-mint);
+    padding: 48px 8% 24px 8%;
+    border-top: 3px solid var(--color-green-medium);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(197, 230, 214, 0.15);
+}
+
+.footer-brand {
+    max-width: 360px;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-white);
+    margin-bottom: 12px;
+}
+
+.footer-logo span {
+    color: var(--color-green-medium);
+}
+
+.footer-brand p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.footer-links {
+    display: flex;
+    gap: 56px;
+}
+
+.footer-col h4 {
+    color: var(--color-white);
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-col a {
+    color: var(--color-mint);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.footer-col a:hover {
+    opacity: 1;
+    color: var(--color-white);
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 20px auto 0 auto;
+    text-align: center;
+    font-size: 0.85rem;
+    opacity: 0.65;
+}
+
+/* Responsividade básica */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.3rem;
+    }
+    .graphic-left, .graphic-right {
+        display: none;
+    }
+    .footer-links {
+        gap: 32px;
+    }
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RankEngine - Criador de Tabelas Personalizadas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Camada sutil de ambientação de dados e grade no fundo -->
+    <div class="data-ambient-bg" aria-hidden="true">
+        <div class="grid-overlay"></div>
+        <!-- Elementos decorativos sutis remetendo a tabelas e métricas -->
+        <svg class="floating-data-graphic graphic-left" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="30" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1.5"/>
+            <line x1="60" y1="30" x2="60" y2="150" stroke="#78B89A" stroke-width="1.5"/>
+            <line x1="130" y1="30" x2="130" y2="150" stroke="#78B89A" stroke-width="1.5"/>
+            <rect x="20" y="64" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1"/>
+            <rect x="20" y="98" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1"/>
+            <circle cx="40" cy="42" r="3" fill="#78B89A"/>
+            <circle cx="40" cy="76" r="3" fill="#78B89A"/>
+            <circle cx="40" cy="110" r="3" fill="#78B89A"/>
+        </svg>
+
+        <svg class="floating-data-graphic graphic-right" viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 140 L65 105 L110 120 L155 60 L200 35" stroke="#78B89A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="140" r="4" fill="#2F5E49"/>
+            <circle cx="65" cy="105" r="4" fill="#2F5E49"/>
+            <circle cx="110" cy="120" r="4" fill="#2F5E49"/>
+            <circle cx="155" cy="60" r="4" fill="#2F5E49"/>
+            <circle cx="200" cy="35" r="5" fill="#78B89A"/>
+            <line x1="20" y1="160" x2="200" y2="160" stroke="#78B89A" stroke-width="1" stroke-dasharray="4 4"/>
+        </svg>
+
+        <!-- Partículas discretas -->
+        <span class="particle p1"></span>
+        <span class="particle p2"></span>
+        <span class="particle p3"></span>
+        <span class="particle p4"></span>
+        <span class="particle p5"></span>
+    </div>
+
+    <!-- Cabeçalho Superior -->
+    <header class="top-header">
+        <div class="header-container">
+            <a href="/" class="brand-logo">
+                <span class="brand-rank">Rank</span><span class="brand-engine">Engine</span>
+            </a>
+
+            <div class="header-actions">
+                <a href="#" class="btn-login" title="Simulação de acesso">
+                    <div class="avatar-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <span>Entrar</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="hero">
+        <div class="hero-content">
+            <div class="badge-pill animate-fade-up delay-1">
+                <span class="dot"></span> Motor de Classificação &amp; Dados em Tempo Real
+            </div>
+            
+            <h1 class="hero-title animate-fade-up delay-2">
+                Quer montar sua tabela de forma personalizada? <br>
+                Conheça a <span class="highlight">RankEngine</span>
+            </h1>
+            
+            <p class="subtitle animate-fade-up delay-3">
+                Crie, gerencie e ordene seus campeonatos, rankings ou métricas com estrutura relacional inteligente e totalmente do seu jeito.
+            </p>
+            
+            <div class="cta-wrapper animate-fade-up delay-4">
+                <a href="/tabela" class="btn-primary">Criar tabela</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé em Verde Escuro -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">Rank<span>Engine</span></div>
+                <p>Plataforma de estruturação e ranking dinâmico impulsionada por modelagem relacional e consultas otimizadas.</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Plataforma</h4>
+                    <ul>
+                        <li><a href="/tabela">Criar Tabela</a></li>
+                        <li><a href="#">Modelos de Ranking</a></li>
+                        <li><a href="#">Documentação SQL</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Projeto</h4>
+                    <ul>
+                        <li><a href="https://github.com/caioutsch/RankEngine" target="_blank">Repositório GitHub</a></li>
+                        <li><a href="#">Arquitetura do Banco</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 RankEngine. Desenvolvido para visualização e análise de dados.</p>
+        </div>
+    </footer>
+</body>
+</html>
