@@ -48,10 +48,15 @@
                 <button type="button" class="auth-tab active" onclick="switchAuthTab('login', this)">Entrar</button>
                 <button type="button" class="auth-tab" onclick="switchAuthTab('register', this)">Criar Conta</button>
             </div>
+            {% if erro %}
+                <div style="background:#fde8e8; color:#963737; padding:10px 14px; border-radius:8px; font-size:0.85rem; font-weight:700; margin-bottom:16px; text-align:center;">
+                    {{ erro }}
+                </div>
+            {% endif %}
 
             <!-- Formulário de Login -->
-            <!-- Formulário de Login -->
 <form id="form-login" class="auth-form" method="POST" action="/auth">
+    <input type="hidden" name="acao" value="login">
     <div class="control-group">
         <label for="login-email">E-mail</label>
         <input type="email" name="email" id="login-email" class="form-input" placeholder="seu@email.com" required>
@@ -70,6 +75,7 @@
 
 <!-- Formulário de Cadastro -->
 <form id="form-register" class="auth-form hidden" method="POST" action="/auth">
+    <input type="hidden" name="acao" value="register">
     <div class="control-group">
         <label for="reg-name">Nome ou Nickname</label>
         <input type="text" name="nome" id="reg-name" class="form-input" placeholder="Seu nome" required>
@@ -87,7 +93,6 @@
 
     <button type="submit" class="btn-auth-submit">Finalizar Cadastro</button>
 </form>
-
             <!-- Formulário de Cadastro (Oculto inicialmente) -->
             <form id="form-register" class="auth-form hidden">
                 <div class="control-group">
