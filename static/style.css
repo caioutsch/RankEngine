@@ -605,3 +605,397 @@ body {
     opacity: 0.75;
     font-weight: 600;
 }
+
+/* =========================================
+   PÁGINA DE EDIÇÃO (EDITOR WORKSPACE)
+   ========================================= */
+.editor-workspace {
+    position: relative;
+    z-index: 5;
+    flex: 1;
+    padding: 40px 5% 80px 5%;
+    display: flex;
+    justify-content: center;
+}
+
+.editor-container {
+    width: 100%;
+    max-width: 1320px;
+}
+
+.editor-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.editor-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-green-dark);
+    text-shadow: 0 0 20px rgba(120, 184, 154, 0.45);
+}
+
+.editor-title .highlight {
+    color: var(--color-green-medium);
+}
+
+.editor-top-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn-secondary-outline {
+    text-decoration: none;
+    color: var(--color-green-dark);
+    background-color: var(--color-white);
+    border: 1.5px solid var(--color-mint);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary-outline:hover {
+    border-color: var(--color-green-dark);
+    background-color: var(--color-bg-light);
+}
+
+.btn-save-changes {
+    background-color: var(--color-green-dark);
+    color: var(--color-white);
+    border: 2px solid var(--color-green-dark);
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(47, 94, 73, 0.25);
+    transition: all 0.25s ease;
+}
+
+.btn-save-changes:hover {
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+    box-shadow: 0 8px 24px rgba(120, 184, 154, 0.5);
+}
+
+/* Grid: Controles à esquerda (430px) + Tabela compacta à direita */
+.editor-grid {
+    display: grid;
+    grid-template-columns: 430px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.editor-controls-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.control-card {
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border: 1.5px solid var(--color-mint);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(47, 94, 73, 0.06);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.control-card:hover {
+    border-color: var(--color-green-medium);
+    box-shadow: 0 10px 28px rgba(120, 184, 154, 0.2);
+}
+
+.control-card-header h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--color-green-dark);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-bg-light);
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.control-group:last-child {
+    margin-bottom: 0;
+}
+
+.control-group label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-green-dark);
+    opacity: 0.85;
+}
+
+.rules-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--color-mint);
+    background-color: var(--color-bg-light);
+    color: var(--color-green-dark);
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: var(--color-green-dark);
+    background-color: var(--color-white);
+}
+
+/* Chips de Colunas */
+.columns-toggle-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.toggle-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--color-mint);
+    background-color: var(--color-bg-light);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-chip input {
+    accent-color: var(--color-green-dark);
+}
+
+.toggle-chip.active {
+    background-color: rgba(197, 230, 214, 0.55);
+    border-color: var(--color-green-medium);
+}
+
+/* Adicionar competidor & Simulador de Partida */
+.add-row-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.btn-add-item {
+    background-color: var(--color-green-medium);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.btn-add-item:hover {
+    background-color: var(--color-green-dark);
+}
+
+.match-simulator-box {
+    background-color: var(--color-bg-light);
+    border: 1px dashed var(--color-green-medium);
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.mini-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--color-green-dark);
+}
+
+.match-inputs {
+    display: grid;
+    grid-template-columns: 1fr 48px auto 48px 1fr;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.score-box {
+    text-align: center;
+    padding: 8px 4px;
+    background-color: var(--color-white);
+}
+
+.vs-badge {
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: var(--color-green-medium);
+}
+
+.btn-register-match {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--color-green-dark);
+    background-color: var(--color-white);
+    color: var(--color-green-dark);
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-register-match:hover {
+    background-color: var(--color-green-dark);
+    color: var(--color-white);
+}
+
+/* Painel Direito: Tabela Menor / Compacta */
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.preview-badge {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-green-dark);
+}
+
+.preview-hint {
+    font-size: 0.78rem;
+    opacity: 0.75;
+}
+
+.rank-table.compact {
+    font-size: 0.9rem;
+}
+
+.rank-table.compact th {
+    padding: 14px 12px;
+    font-size: 0.78rem;
+}
+
+.rank-table.compact td {
+    padding: 13px 12px;
+}
+
+.row-actions {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.icon-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid var(--color-mint);
+    background-color: var(--color-bg-light);
+    color: var(--color-green-dark);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    background-color: var(--color-green-dark);
+    color: var(--color-white);
+}
+
+.icon-btn.danger:hover {
+    background-color: #B84A4A;
+    border-color: #B84A4A;
+    color: var(--color-white);
+}
+
+/* Barra de Zonas abaixo da tabela */
+.zone-config-bar {
+    margin-top: 16px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--color-mint);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.82rem;
+}
+
+.zone-label {
+    font-weight: 700;
+}
+
+.zone-pill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.zone-pill.promo {
+    background-color: var(--color-mint);
+    color: var(--color-green-dark);
+}
+
+.zone-pill.drop {
+    background-color: rgba(184, 74, 74, 0.12);
+    color: #963737;
+}
+
+.btn-zone-edit {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--color-green-medium);
+    color: var(--color-green-dark);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 0.78rem;
+    cursor: pointer;
+}
+
+.btn-zone-edit:hover {
+    background-color: var(--color-green-medium);
+    color: var(--color-white);
+}
+
+@media (max-width: 1024px) {
+    .editor-grid {
+        grid-template-columns: 1fr;
+    }
+}

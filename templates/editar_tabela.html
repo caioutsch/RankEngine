@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RankEngine - Editor de Tabela</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Mesma ambientação sutil de dados e partículas -->
+    <div class="data-ambient-bg" aria-hidden="true">
+        <div class="grid-overlay"></div>
+        <svg class="floating-data-graphic graphic-left" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="30" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1.5"/>
+            <line x1="60" y1="30" x2="60" y2="150" stroke="#78B89A" stroke-width="1.5"/>
+            <line x1="130" y1="30" x2="130" y2="150" stroke="#78B89A" stroke-width="1.5"/>
+            <rect x="20" y="64" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1"/>
+            <rect x="20" y="98" width="160" height="24" rx="4" stroke="#78B89A" stroke-width="1"/>
+        </svg>
+
+        <svg class="floating-data-graphic graphic-right" viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 140 L65 105 L110 120 L155 60 L200 35" stroke="#78B89A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="200" cy="35" r="5" fill="#78B89A"/>
+        </svg>
+
+        <span class="particle p1"></span>
+        <span class="particle p2"></span>
+        <span class="particle p3"></span>
+        <span class="particle p4"></span>
+        <span class="particle p5"></span>
+    </div>
+
+    <!-- Mesmo Cabeçalho -->
+    <header class="top-header">
+        <div class="header-container">
+            <a href="/" class="brand-logo">
+                <span class="brand-rank">Rank</span><span class="brand-engine">Engine</span>
+            </a>
+
+            <div class="header-actions">
+                <a href="#" class="btn-login" title="Simulação de acesso">
+                    <div class="avatar-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <span>Entrar</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Área de Edição e Pré-visualização -->
+    <main class="editor-workspace">
+        <div class="editor-container">
+
+            <!-- Cabeçalho do Editor -->
+            <div class="editor-top-bar animate-fade-up delay-1">
+                <div>
+                    <span class="status-tag">Modo de Edição Avançada</span>
+                    <h1 class="editor-title">Configurar <span class="highlight">RankEngine</span></h1>
+                </div>
+
+                <div class="editor-top-actions">
+                    <a href="/tabela" class="btn-secondary-outline">← Voltar para Tabela</a>
+                    <button type="button" class="btn-save-changes">Salvar Alterações</button>
+                </div>
+            </div>
+
+            <!-- Grid Principal: Painel de Controles (Esquerda) + Tabela Compacta (Direita) -->
+            <div class="editor-grid">
+
+                <!-- COLUNA 1: OPÇÕES COMPLEXAS DE EDIÇÃO -->
+                <aside class="editor-controls-panel animate-fade-up delay-2">
+
+                    <!-- Bloco 1: Identidade & Regras de Pontuação -->
+                    <div class="control-card">
+                        <div class="control-card-header">
+                            <h3>1. Estrutura &amp; Regras de Pontuação</h3>
+                        </div>
+                        <div class="control-group">
+                            <label for="table-name">Título da Tabela / Torneio</label>
+                            <input type="text" id="table-name" class="form-input" value="Classificação Geral RankEngine" placeholder="Ex: Copa Nacional 2026">
+                        </div>
+
+                        <div class="rules-row">
+                            <div class="control-group">
+                                <label>Vitória (PTS)</label>
+                                <input type="number" class="form-input" value="3">
+                            </div>
+                            <div class="control-group">
+                                <label>Empate (PTS)</label>
+                                <input type="number" class="form-input" value="1">
+                            </div>
+                            <div class="control-group">
+                                <label>Derrota (PTS)</label>
+                                <input type="number" class="form-input" value="0">
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label>Critério Principal de Desempate (SQL ORDER BY)</label>
+                            <select class="form-select">
+                                <option selected>1º Vitórias → 2º Saldo → 3º Pró</option>
+                                <option>1º Saldo → 2º Vitórias → 3º Confronto Direto</option>
+                                <option>1º Aproveitamento (%) → 2º Vitórias</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Bloco 2: Colunas Visíveis / Personalizadas -->
+                    <div class="control-card">
+                        <div class="control-card-header">
+                            <h3>2. Colunas &amp; Métricas Exibidas</h3>
+                        </div>
+                        <div class="columns-toggle-grid">
+                            <label class="toggle-chip active">
+                                <input type="checkbox" checked> <span>PTS (Pontos)</span>
+                            </label>
+                            <label class="toggle-chip active">
+                                <input type="checkbox" checked> <span>PJ (Jogos)</span>
+                            </label>
+                            <label class="toggle-chip active">
+                                <input type="checkbox" checked> <span>VIT / EMP / DER</span>
+                            </label>
+                            <label class="toggle-chip active">
+                                <input type="checkbox" checked> <span>SALDO</span>
+                            </label>
+                            <label class="toggle-chip active">
+                                <input type="checkbox" checked> <span>APROV. (%)</span>
+                            </label>
+                            <label class="toggle-chip">
+                                <input type="checkbox"> <span>Últimos 5 Jogos</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Bloco 3: Adicionar Competidor ou Registrar Partida -->
+                    <div class="control-card">
+                        <div class="control-card-header">
+                            <h3>3. Competidores &amp; Resultados</h3>
+                        </div>
+
+                        <div class="add-row-box">
+                            <input type="text" class="form-input" placeholder="Nome do novo competidor ou equipe...">
+                            <button type="button" class="btn-add-item">+ Adicionar</button>
+                        </div>
+
+                        <div class="match-simulator-box">
+                            <span class="mini-label">Registrar Nova Partida (Simulação)</span>
+                            <div class="match-inputs">
+                                <select class="form-select">
+                                    <option>Apex Racing Team</option>
+                                    <option>Velocity Motorsport</option>
+                                    <option>Emerald Dynamics</option>
+                                </select>
+                                <input type="number" class="form-input score-box" placeholder="0">
+                                <span class="vs-badge">X</span>
+                                <input type="number" class="form-input score-box" placeholder="0">
+                                <select class="form-select">
+                                    <option>Velocity Motorsport</option>
+                                    <option>Apex Racing Team</option>
+                                    <option>Horizon Squad</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn-register-match">Lançar Resultado na Tabela</button>
+                        </div>
+                    </div>
+
+                </aside>
+
+                <!-- COLUNA 2: PRÉ-VISUALIZAÇÃO COMPACTA DA TABELA COM GLOW -->
+                <section class="editor-preview-panel animate-fade-up delay-3">
+                    <div class="preview-header">
+                        <span class="preview-badge">Pré-visualização em Tempo Real</span>
+                        <span class="preview-hint">Clique em qualquer célula para editar diretamente (em breve)</span>
+                    </div>
+
+                    <div class="table-card-glow compact-table-card">
+                        <div class="table-responsive">
+                            <table class="rank-table compact">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="col-name">Competidor</th>
+                                        <th>PTS</th>
+                                        <th>PJ</th>
+                                        <th>VIT</th>
+                                        <th>EMP</th>
+                                        <th>DER</th>
+                                        <th>SALDO</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="rank-top-1">
+                                        <td><span class="pos-badge gold">1º</span></td>
+                                        <td class="competitor-cell">
+                                            <span class="team-dot"></span>
+                                            <strong>Apex Racing Team</strong>
+                                        </td>
+                                        <td class="pts-highlight">28</td>
+                                        <td>10</td>
+                                        <td>9</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td class="positive">+21</td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button type="button" class="icon-btn" title="Editar linha">✎</button>
+                                                <button type="button" class="icon-btn danger" title="Remover">✕</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="pos-badge silver">2º</span></td>
+                                        <td class="competitor-cell">
+                                            <span class="team-dot"></span>
+                                            <strong>Velocity Motorsport</strong>
+                                        </td>
+                                        <td class="pts-highlight">23</td>
+                                        <td>10</td>
+                                        <td>7</td>
+                                        <td>2</td>
+                                        <td>1</td>
+                                        <td class="positive">+14</td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button type="button" class="icon-btn" title="Editar linha">✎</button>
+                                                <button type="button" class="icon-btn danger" title="Remover">✕</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="pos-badge bronze">3º</span></td>
+                                        <td class="competitor-cell">
+                                            <span class="team-dot"></span>
+                                            <strong>Emerald Dynamics</strong>
+                                        </td>
+                                        <td class="pts-highlight">19</td>
+                                        <td>10</td>
+                                        <td>6</td>
+                                        <td>1</td>
+                                        <td>3</td>
+                                        <td class="positive">+8</td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button type="button" class="icon-btn" title="Editar linha">✎</button>
+                                                <button type="button" class="icon-btn danger" title="Remover">✕</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="pos-badge">4º</span></td>
+                                        <td class="competitor-cell">
+                                            <span class="team-dot"></span>
+                                            <strong>Horizon Squad</strong>
+                                        </td>
+                                        <td class="pts-highlight">15</td>
+                                        <td>10</td>
+                                        <td>4</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td class="neutral">+1</td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button type="button" class="icon-btn" title="Editar linha">✎</button>
+                                                <button type="button" class="icon-btn danger" title="Remover">✕</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="pos-badge">5º</span></td>
+                                        <td class="competitor-cell">
+                                            <span class="team-dot"></span>
+                                            <strong>Nova Pulse</strong>
+                                        </td>
+                                        <td class="pts-highlight">11</td>
+                                        <td>10</td>
+                                        <td>3</td>
+                                        <td>2</td>
+                                        <td>5</td>
+                                        <td class="negative">-6</td>
+                                        <td>
+                                            <div class="row-actions">
+                                                <button type="button" class="icon-btn" title="Editar linha">✎</button>
+                                                <button type="button" class="icon-btn danger" title="Remover">✕</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Barra de Zonas / Destaques Visuais da Tabela -->
+                    <div class="zone-config-bar">
+                        <span class="zone-label">Destaque de Zonas:</span>
+                        <span class="zone-pill promo">● Top 3: Classificação / Pódio</span>
+                        <span class="zone-pill drop">● Último: Zona de Corte</span>
+                        <button type="button" class="btn-zone-edit">+ Configurar Zonas</button>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Mesmo Rodapé -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">Rank<span>Engine</span></div>
+                <p>Plataforma de estruturação e ranking dinâmico impulsionada por modelagem relacional e consultas otimizadas.</p>
+            </div>
+            
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Plataforma</h4>
+                    <ul>
+                        <li><a href="/tabela">Criar Tabela</a></li>
+                        <li><a href="#">Modelos de Ranking</a></li>
+                        <li><a href="#">Documentação SQL</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Projeto</h4>
+                    <ul>
+                        <li><a href="https://github.com/caioutsch/RankEngine" target="_blank">Repositório GitHub</a></li>
+                        <li><a href="#">Arquitetura do Banco</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 RankEngine. Desenvolvido para visualização e análise de dados.</p>
+        </div>
+    </footer>
+</body>
+</html>

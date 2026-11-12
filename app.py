@@ -12,7 +12,7 @@ def tabela():
 
 @app.route('/editar-tabela')
 def editar_tabela():
-    return "Tela de edição complexa da tabela (próximo passo!)"
+    return render_template('editar_tabela.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
